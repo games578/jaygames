@@ -1,5 +1,581 @@
 const games = [
   // ===== GAMEMONETIZE FEED =====
+    {
+    id: "ultra-crash-car-simulator-2026",
+    title: "Ultra Crash Car Simulator 2026",
+    src: "https://html5.gamemonetize.co/bevbu07wktcxyyg5hwz42yh36bg5maio/",
+    img: "https://img.gamemonetize.com/bevbu07wktcxyyg5hwz42yh36bg5maio/512x384.jpg",
+    tags: ["1 Player", "2026 games", "3D", "3D Games", "Car", "jeep", "Simulator"]
+  },
+  {
+    id: "soldier-shooting",
+    title: "Soldier shooting",
+    src: "https://html5.gamemonetize.co/hvpza1ozirbohr4b6yvq9z5p31aeqawy/",
+    img: "https://img.gamemonetize.com/hvpza1ozirbohr4b6yvq9z5p31aeqawy/512x384.jpg",
+    tags: ["Adventure", "Army", "Clicker", "Enemy"]
+  },
+  {
+    id: "fish-aquarium-game",
+    title: "Fish Aquarium Game",
+    src: "https://html5.gamemonetize.co/n6rj5pu853j5z31exseip818vqhvk12r/",
+    img: "https://img.gamemonetize.com/n6rj5pu853j5z31exseip818vqhvk12r/512x384.jpg",
+    tags: ["2026 games", "amazing", "Casual", "Funny", "Skills"]
+  },
+  {
+    id: "flap-up-game",
+    title: "Flap Up Game",
+    src: "https://html5.gamemonetize.co/mh08lk78gtrvf2nfp2kbvqj9n1xl8voi/",
+    img: "https://img.gamemonetize.com/mh08lk78gtrvf2nfp2kbvqj9n1xl8voi/512x384.jpg",
+    tags: ["2026 games", "amazing", "Casual", "Fun", "Hypercasual", "Skill"]
+  },
+  {
+    id: "fallfur",
+    title: "FallFur",
+    src: "https://html5.gamemonetize.co/00rc1qapvfanavoywyen9ns9bql6nvm4/",
+    img: "https://img.gamemonetize.com/00rc1qapvfanavoywyen9ns9bql6nvm4/512x384.jpg",
+    tags: ["Animal", "Casual", "Puzzle", "sky"]
+  },
+  {
+    id: "sudoku-puzzle-master",
+    title: "Sudoku Puzzle Master",
+    src: "https://html5.gamemonetize.co/q55d7ziajl30qgu9rgey2tyvq17281ox/",
+    img: "https://img.gamemonetize.com/q55d7ziajl30qgu9rgey2tyvq17281ox/512x384.jpg",
+    tags: ["Boy", "Casual", "Math", "Mind", "Puzzle", "Sudoku"]
+  },
+  {
+    id: "shadow-escape",
+    title: "Shadow Escape",
+    src: "https://html5.gamemonetize.co/ue6pv9frylen459ec8g3z8zwk21hs265/",
+    img: "https://img.gamemonetize.com/ue6pv9frylen459ec8g3z8zwk21hs265/512x384.jpg",
+    tags: ["Boy", "Casual", "jump", "Warrior"]
+  },
+  {
+    id: "candy-crush-blast",
+    title: "Candy Crush Blast",
+    src: "https://html5.gamemonetize.co/jb0dcjocnv110l3a3tmmdxbnto6gwv8g/",
+    img: "https://img.gamemonetize.com/jb0dcjocnv110l3a3tmmdxbnto6gwv8g/512x384.jpg",
+    tags: ["1 Player", "2026 games", "2D", "Bubble", "Candy", "Casual", "Color", "Coloring", "Fun", "Funny", "Hypercasual", "Puzzle", "puzzleblock", "swipe"]
+  },
+  {
+    id: "fill-line-one-line-puzzle-game",
+    title: "Fill Line : one line puzzle game",
+    src: "https://html5.gamemonetize.co/2x307mdmfkmohpv25ukcq2eqjwlnpesy/",
+    img: "https://img.gamemonetize.com/2x307mdmfkmohpv25ukcq2eqjwlnpesy/512x384.jpg",
+    tags: [".io Games", "2D", "Adventure", "Casual", "Hypercasual", "Puzzle"]
+  },
+  {
+    id: "astro-racing",
+    title: "Astro Racing",
+    src: "https://html5.gamemonetize.co/ctty3hla6y6cocro7k8tr4egapzms8re/",
+    img: "https://img.gamemonetize.com/ctty3hla6y6cocro7k8tr4egapzms8re/512x384.jpg",
+    tags: ["Ai Games", "mapi games", "Race", "Racing", "Retro", "Space"]
+  },
+  {
+    id: "cookie-party-pop",
+    title: "Cookie Party Pop",
+    src: "https://html5.gamemonetize.co/m4a1m90ajt2q62i7lzavxhkgkjzltsci/",
+    img: "https://img.gamemonetize.com/m4a1m90ajt2q62i7lzavxhkgkjzltsci/512x384.jpg",
+    tags: ["Casual", "Food", "Match-3", "Puzzle"]
+  },
+  
+  {
+    id: "ultra-crash-car-simulator-2026",
+    title: "Ultra Crash Car Simulator 2026",
+    src: "https://html5.gamemonetize.co/bevbu07wktcxyyg5hwz42yh36bg5maio/",
+    img: "https://img.gamemonetize.com/bevbu07wktcxyyg5hwz42yh36bg5maio/512x384.jpg",
+    tags: ["1 Player", "2026 games", "3D", "3D Games", "Car", "jeep", "Simulator"]
+  },
+  {
+    id: "soldier-shooting",
+    title: "Soldier shooting",
+    src: "https://html5.gamemonetize.co/hvpza1ozirbohr4b6yvq9z5p31aeqawy/",
+    img: "https://img.gamemonetize.com/hvpza1ozirbohr4b6yvq9z5p31aeqawy/512x384.jpg",
+    tags: ["Adventure", "Army", "Clicker", "Enemy"]
+  },
+  {
+    id: "fish-aquarium-game",
+    title: "Fish Aquarium Game",
+    src: "https://html5.gamemonetize.co/n6rj5pu853j5z31exseip818vqhvk12r/",
+    img: "https://img.gamemonetize.com/n6rj5pu853j5z31exseip818vqhvk12r/512x384.jpg",
+    tags: ["2026 games", "amazing", "Casual", "Funny", "Skills"]
+  },
+  {
+    id: "flap-up-game",
+    title: "Flap Up Game",
+    src: "https://html5.gamemonetize.co/mh08lk78gtrvf2nfp2kbvqj9n1xl8voi/",
+    img: "https://img.gamemonetize.com/mh08lk78gtrvf2nfp2kbvqj9n1xl8voi/512x384.jpg",
+    tags: ["2026 games", "amazing", "Casual", "Fun", "Hypercasual", "Skill"]
+  },
+  {
+    id: "fallfur",
+    title: "FallFur",
+    src: "https://html5.gamemonetize.co/00rc1qapvfanavoywyen9ns9bql6nvm4/",
+    img: "https://img.gamemonetize.com/00rc1qapvfanavoywyen9ns9bql6nvm4/512x384.jpg",
+    tags: ["Animal", "Casual", "Puzzle", "sky"]
+  },
+  {
+    id: "sudoku-puzzle-master",
+    title: "Sudoku Puzzle Master",
+    src: "https://html5.gamemonetize.co/q55d7ziajl30qgu9rgey2tyvq17281ox/",
+    img: "https://img.gamemonetize.com/q55d7ziajl30qgu9rgey2tyvq17281ox/512x384.jpg",
+    tags: ["Boy", "Casual", "Math", "Mind", "Puzzle", "Sudoku"]
+  },
+  {
+    id: "shadow-escape",
+    title: "Shadow Escape",
+    src: "https://html5.gamemonetize.co/ue6pv9frylen459ec8g3z8zwk21hs265/",
+    img: "https://img.gamemonetize.com/ue6pv9frylen459ec8g3z8zwk21hs265/512x384.jpg",
+    tags: ["Boy", "Casual", "jump", "Warrior"]
+  },
+  {
+    id: "candy-crush-blast",
+    title: "Candy Crush Blast",
+    src: "https://html5.gamemonetize.co/jb0dcjocnv110l3a3tmmdxbnto6gwv8g/",
+    img: "https://img.gamemonetize.com/jb0dcjocnv110l3a3tmmdxbnto6gwv8g/512x384.jpg",
+    tags: [
+      "1 Player",
+      "2026 games",
+      "2D",
+      "Bubble",
+      "Candy",
+      "Casual",
+      "Color",
+      "Coloring",
+      "Fun",
+      "Funny",
+      "Hypercasual",
+      "Puzzle",
+      "puzzleblock",
+      "swipe"
+    ]
+  },
+  {
+    id: "fill-line-one-line-puzzle-game",
+    title: "Fill Line : one line puzzle game",
+    src: "https://html5.gamemonetize.co/2x307mdmfkmohpv25ukcq2eqjwlnpesy/",
+    img: "https://img.gamemonetize.com/2x307mdmfkmohpv25ukcq2eqjwlnpesy/512x384.jpg",
+    tags: [".io Games", "2D", "Adventure", "Casual", "Hypercasual", "Puzzle"]
+  },
+  {
+    id: "astro-racing",
+    title: "Astro Racing",
+    src: "https://html5.gamemonetize.co/ctty3hla6y6cocro7k8tr4egapzms8re/",
+    img: "https://img.gamemonetize.com/ctty3hla6y6cocro7k8tr4egapzms8re/512x384.jpg",
+    tags: ["Ai Games", "mapi games", "Race", "Racing", "Retro", "Space"]
+  },
+  {
+    id: "cookie-party-pop",
+    title: "Cookie Party Pop",
+    src: "https://html5.gamemonetize.co/m4a1m90ajt2q62i7lzavxhkgkjzltsci/",
+    img: "https://img.gamemonetize.com/m4a1m90ajt2q62i7lzavxhkgkjzltsci/512x384.jpg",
+    tags: ["Casual", "Food", "Match-3", "Puzzle"]
+  },
+  {
+    id: "minecraft-hole-io",
+    title: "Minecraft Hole IO",
+    src: "https://html5.gamemonetize.co/6ydz0v3vv6xdggvwo3gvwhnitooamaaj/",
+    img: "https://img.gamemonetize.com/6ydz0v3vv6xdggvwo3gvwhnitooamaaj/512x384.jpg",
+    tags: [".io Games", "Casual", "Hypercasual", "Minecraft"]
+  },
+  {
+    id: "hidden-aquatic",
+    title: "Hidden Aquatic",
+    src: "https://html5.gamemonetize.co/dqy1bift08w4axixlt60f0np1ut1kl2q/",
+    img: "https://img.gamemonetize.com/dqy1bift08w4axixlt60f0np1ut1kl2q/512x384.jpg",
+    tags: ["Animal", "Casual", "Logic", "Matching"]
+  },
+  {
+    id: "frozen-princess-puzzle",
+    title: "Frozen Princess Puzzle",
+    src: "https://html5.gamemonetize.co/6rvbx8carxo83w6m5sby3qyqbw07m784/",
+    img: "https://img.gamemonetize.com/6rvbx8carxo83w6m5sby3qyqbw07m784/512x384.jpg",
+    tags: ["2026 games", "Adventure", "amazing", "Casual", "Fun"]
+  },
+  {
+    id: "world-tour",
+    title: "World Tour",
+    src: "https://html5.gamemonetize.co/dxqtr8dq8nkrisyhrpjsjm9ybvl613wm/",
+    img: "https://img.gamemonetize.com/dxqtr8dq8nkrisyhrpjsjm9ybvl613wm/512x384.jpg",
+    tags: ["1 Player", "Casual", "Jumping", "run"]
+  },
+  {
+    id: "hill-climb-racings-2",
+    title: "HIll climb Racings 2",
+    src: "https://html5.gamemonetize.co/1vxk8rfmkpin0l0ex7atiuftp6l3mu6p/",
+    img: "https://img.gamemonetize.com/1vxk8rfmkpin0l0ex7atiuftp6l3mu6p/512x384.jpg",
+    tags: ["Adventure", "Funny", "Kids", "kiz10", "Racing"]
+  },
+  {
+    id: "master-hole-battle",
+    title: "Master Hole Battle",
+    src: "https://html5.gamemonetize.co/qc2gzd8xxzq5njf70rf35ukr1no47ocf/",
+    img: "https://img.gamemonetize.com/qc2gzd8xxzq5njf70rf35ukr1no47ocf/512x384.jpg",
+    tags: ["Puzzle"]
+  },
+  {
+    id: "perfect-jump-puzzle-game",
+    title: "Perfect Jump Puzzle Game",
+    src: "https://html5.gamemonetize.co/p93c0df78gfun4l3pjgef3nw04uqfyeg/",
+    img: "https://img.gamemonetize.com/p93c0df78gfun4l3pjgef3nw04uqfyeg/512x384.jpg",
+    tags: [
+      "2026 games",
+      "Arcade",
+      "free html5 games for your website",
+      "HTML",
+      "HTML5",
+      "html5 games",
+      "Hypercasual",
+      "Puzzle"
+    ]
+  },
+  {
+    id: "doll-dress-up-game",
+    title: "Doll Dress up Game",
+    src: "https://html5.gamemonetize.co/by79pomr7kux6p3a2ejyv9uo6r0d9u05/",
+    img: "https://img.gamemonetize.com/by79pomr7kux6p3a2ejyv9uo6r0d9u05/512x384.jpg",
+    tags: ["2026 games", "amazing", "Baby Games", "Fun", "Girls"]
+  },
+  {
+    id: "weight-adjust-game",
+    title: "Weight Adjust Game",
+    src: "https://html5.gamemonetize.co/115o5ra9wml0zbgwkhazf359vrdma2c4/",
+    img: "https://img.gamemonetize.com/115o5ra9wml0zbgwkhazf359vrdma2c4/512x384.jpg",
+    tags: ["amazing", "Casual", "Fun", "Hypercasual", "Skill"]
+  },
+  {
+    id: "mineblock-zombie-survival",
+    title: "Mineblock Zombie Survival",
+    src: "https://html5.gamemonetize.co/e0lwaarmyi3w7mdlfrxtis4c5qt2l68r/",
+    img: "https://img.gamemonetize.com/e0lwaarmyi3w7mdlfrxtis4c5qt2l68r/512x384.jpg",
+    tags: ["Block", "Minecraft", "Shoot", "Shooter", "Shooting", "survival", "Zombie"]
+  },
+  {
+    id: "minecraft-diamond-miner",
+    title: "Minecraft Diamond Miner",
+    src: "https://html5.gamemonetize.co/3ayvpakkoynqv0heieom2wbt2zscijpn/",
+    img: "https://img.gamemonetize.com/3ayvpakkoynqv0heieom2wbt2zscijpn/512x384.jpg",
+    tags: ["Arcade", "Mine", "Minecraft", "Miner", "Puzzle"]
+  },
+  {
+    id: "the-best-memory",
+    title: "The Best Memory",
+    src: "https://html5.gamemonetize.co/a78mxs6j39xuvq52pthxhq24fxficsi7/",
+    img: "https://img.gamemonetize.com/a78mxs6j39xuvq52pthxhq24fxficsi7/512x384.jpg",
+    tags: ["1 Player", "Best", "Fun", "Funny", "Kids", "Matching", "Memory", "Mobile", "Skill"]
+  },
+  {
+    id: "balloon-pop-master",
+    title: "Balloon Pop Master",
+    src: "https://html5.gamemonetize.co/kapfvra3zri06z6ohm6wm92s9yiwtpbi/",
+    img: "https://img.gamemonetize.com/kapfvra3zri06z6ohm6wm92s9yiwtpbi/512x384.jpg",
+    tags: [
+      "1 Player",
+      "2026 games",
+      "2D",
+      "8 Ball Pool",
+      "Air",
+      "Android",
+      "Animal",
+      "Arcade",
+      "Baby",
+      "Baby Games",
+      "Ballon",
+      "Best",
+      "Best Games",
+      "Boys"
+    ]
+  },
+  {
+    id: "jumen",
+    title: "Jumen",
+    src: "https://html5.gamemonetize.co/4i5l161x3ttlf4mz8n02b0fvfkust3o4/",
+    img: "https://img.gamemonetize.com/4i5l161x3ttlf4mz8n02b0fvfkust3o4/512x384.jpg",
+    tags: ["Baby Games"]
+  },
+  {
+    id: "springle-puzzle",
+    title: "Springle Puzzle",
+    src: "https://html5.gamemonetize.co/7o41rgtyzwezdwm3a58yl1a5o6pwyw3q/",
+    img: "https://img.gamemonetize.com/7o41rgtyzwezdwm3a58yl1a5o6pwyw3q/512x384.jpg",
+    tags: ["Brain", "html5 games", "Jigsaw", "Logical", "Mobile", "Puzzle", "Skill"]
+  },
+  {
+    id: "water-sort-puzzle-italian-brainrot",
+    title: "Water Sort Puzzle Italian Brainrot",
+    src: "https://html5.gamemonetize.co/00e7bfbvq86f5uwgkkow9aiwbjcsfamn/",
+    img: "https://img.gamemonetize.com/00e7bfbvq86f5uwgkkow9aiwbjcsfamn/512x384.jpg",
+    tags: [
+      "Brainrot",
+      "Brainrot Italian",
+      "Color",
+      "HTML5",
+      "Mobile",
+      "sort",
+      "sorting",
+      "water"
+    ]
+  },
+  {
+    id: "tiles-layer",
+    title: "Tiles Layer",
+    src: "https://html5.gamemonetize.co/z7vx1dqudlz1mt2ywkxyqosrwq8e4dtv/",
+    img: "https://img.gamemonetize.com/z7vx1dqudlz1mt2ywkxyqosrwq8e4dtv/512x384.jpg",
+    tags: ["Casual", "Clicker", "Fun", "Puzzle"]
+  },
+  {
+    id: "ice-blast-buddies",
+    title: "Ice Blast Buddies",
+    src: "https://html5.gamemonetize.co/ravkpk123ps3xmeghr8re6miv06rgqay/",
+    img: "https://img.gamemonetize.com/ravkpk123ps3xmeghr8re6miv06rgqay/512x384.jpg",
+    tags: ["Casual", "Ice", "Match 3", "Puzzle"]
+  },
+  {
+    id: "sweet-merge-puzzle",
+    title: "Sweet Merge Puzzle",
+    src: "https://html5.gamemonetize.co/c84tgvtrqgd2hi3mhhlvx0heu5ujpjh8/",
+    img: "https://img.gamemonetize.com/c84tgvtrqgd2hi3mhhlvx0heu5ujpjh8/512x384.jpg",
+    tags: [
+      "1 Player",
+      "2026 games",
+      "2D",
+      "Arcade",
+      "Candy",
+      "Castle",
+      "Casual",
+      "Color",
+      "Fun",
+      "Funny",
+      "Hypercasual",
+      "Puzzle",
+      "puzzleblock",
+      "swipe"
+    ]
+  },
+  {
+    id: "urban-echo",
+    title: "Urban Echo",
+    src: "https://html5.gamemonetize.co/x6ec3zk1a76zhzjz4ztnyg1dw157pppv/",
+    img: "https://img.gamemonetize.com/x6ec3zk1a76zhzjz4ztnyg1dw157pppv/512x384.jpg",
+    tags: ["Avoid", "Jumping", "running", "Street Fighting"]
+  },
+  {
+    id: "ultra-crash-car-simulator-2026",
+    title: "Ultra Crash Car Simulator 2026",
+    src: "https://html5.gamemonetize.co/bevbu07wktcxyyg5hwz42yh36bg5maio/",
+    img: "https://img.gamemonetize.com/bevbu07wktcxyyg5hwz42yh36bg5maio/512x384.jpg",
+    tags: ["1 Player", "2026 games", "3D", "3D Games", "Car", "jeep", "Simulator"]
+  },
+  {
+    id: "soldier-shooting",
+    title: "Soldier shooting",
+    src: "https://html5.gamemonetize.co/hvpza1ozirbohr4b6yvq9z5p31aeqawy/",
+    img: "https://img.gamemonetize.com/hvpza1ozirbohr4b6yvq9z5p31aeqawy/512x384.jpg",
+    tags: ["Adventure", "Army", "Clicker", "Enemy"]
+  },
+  {
+    id: "fish-aquarium-game",
+    title: "Fish Aquarium Game",
+    src: "https://html5.gamemonetize.co/n6rj5pu853j5z31exseip818vqhvk12r/",
+    img: "https://img.gamemonetize.com/n6rj5pu853j5z31exseip818vqhvk12r/512x384.jpg",
+    tags: ["2026 games", "amazing", "Casual", "Funny", "Skills"]
+  },
+  {
+    id: "flap-up-game",
+    title: "Flap Up Game",
+    src: "https://html5.gamemonetize.co/mh08lk78gtrvf2nfp2kbvqj9n1xl8voi/",
+    img: "https://img.gamemonetize.com/mh08lk78gtrvf2nfp2kbvqj9n1xl8voi/512x384.jpg",
+    tags: ["2026 games", "amazing", "Casual", "Fun", "Hypercasual", "Skill"]
+  },
+  {
+    id: "fallfur",
+    title: "FallFur",
+    src: "https://html5.gamemonetize.co/00rc1qapvfanavoywyen9ns9bql6nvm4/",
+    img: "https://img.gamemonetize.com/00rc1qapvfanavoywyen9ns9bql6nvm4/512x384.jpg",
+    tags: ["Animal", "Casual", "Puzzle", "sky"]
+  },
+  {
+    id: "sudoku-puzzle-master",
+    title: "Sudoku Puzzle Master",
+    src: "https://html5.gamemonetize.co/q55d7ziajl30qgu9rgey2tyvq17281ox/",
+    img: "https://img.gamemonetize.com/q55d7ziajl30qgu9rgey2tyvq17281ox/512x384.jpg",
+    tags: ["Boy", "Casual", "Math", "Mind", "Puzzle", "Sudoku"]
+  },
+  {
+    id: "shadow-escape",
+    title: "Shadow Escape",
+    src: "https://html5.gamemonetize.co/ue6pv9frylen459ec8g3z8zwk21hs265/",
+    img: "https://img.gamemonetize.com/ue6pv9frylen459ec8g3z8zwk21hs265/512x384.jpg",
+    tags: ["Boy", "Casual", "jump", "Warrior"]
+  },
+  {
+    id: "candy-crush-blast",
+    title: "Candy Crush Blast",
+    src: "https://html5.gamemonetize.co/jb0dcjocnv110l3a3tmmdxbnto6gwv8g/",
+    img: "https://img.gamemonetize.com/jb0dcjocnv110l3a3tmmdxbnto6gwv8g/512x384.jpg",
+    tags: ["1 Player", "2026 games", "2D", "Bubble", "Candy", "Casual", "Color", "Coloring", "Fun", "Funny", "Hypercasual", "Puzzle", "puzzleblock", "swipe"]
+  },
+  {
+    id: "fill-line-one-line-puzzle-game",
+    title: "Fill Line : one line puzzle game",
+    src: "https://html5.gamemonetize.co/2x307mdmfkmohpv25ukcq2eqjwlnpesy/",
+    img: "https://img.gamemonetize.com/2x307mdmfkmohpv25ukcq2eqjwlnpesy/512x384.jpg",
+    tags: [".io Games", "2D", "Adventure", "Casual", "Hypercasual", "Puzzle"]
+  },
+  {
+    id: "astro-racing",
+    title: "Astro Racing",
+    src: "https://html5.gamemonetize.co/ctty3hla6y6cocro7k8tr4egapzms8re/",
+    img: "https://img.gamemonetize.com/ctty3hla6y6cocro7k8tr4egapzms8re/512x384.jpg",
+    tags: ["Ai Games", "mapi games", "Race", "Racing", "Retro", "Space"]
+  },
+  {
+    id: "cookie-party-pop",
+    title: "Cookie Party Pop",
+    src: "https://html5.gamemonetize.co/m4a1m90ajt2q62i7lzavxhkgkjzltsci/",
+    img: "https://img.gamemonetize.com/m4a1m90ajt2q62i7lzavxhkgkjzltsci/512x384.jpg",
+    tags: ["Casual", "Food", "Match-3", "Puzzle"]
+  },
+  {
+    id: "minecraft-hole-io",
+    title: "Minecraft Hole IO",
+    src: "https://html5.gamemonetize.co/6ydz0v3vv6xdggvwo3gvwhnitooamaaj/",
+    img: "https://img.gamemonetize.com/6ydz0v3vv6xdggvwo3gvwhnitooamaaj/512x384.jpg",
+    tags: [".io Games", "Casual", "Hypercasual", "Minecraft"]
+  },
+  {
+    id: "hidden-aquatic",
+    title: "Hidden Aquatic",
+    src: "https://html5.gamemonetize.co/dqy1bift08w4axixlt60f0np1ut1kl2q/",
+    img: "https://img.gamemonetize.com/dqy1bift08w4axixlt60f0np1ut1kl2q/512x384.jpg",
+    tags: ["Animal", "Casual", "Logic", "Matching"]
+  },
+  {
+    id: "frozen-princess-puzzle",
+    title: "Frozen Princess Puzzle",
+    src: "https://html5.gamemonetize.co/6rvbx8carxo83w6m5sby3qyqbw07m784/",
+    img: "https://img.gamemonetize.com/6rvbx8carxo83w6m5sby3qyqbw07m784/512x384.jpg",
+    tags: ["2026 games", "Adventure", "amazing", "Casual", "Fun"]
+  },
+  {
+    id: "world-tour",
+    title: "World Tour",
+    src: "https://html5.gamemonetize.co/dxqtr8dq8nkrisyhrpjsjm9ybvl613wm/",
+    img: "https://img.gamemonetize.com/dxqtr8dq8nkrisyhrpjsjm9ybvl613wm/512x384.jpg",
+    tags: ["1 Player", "Casual", "Jumping", "run"]
+  },
+  {
+    id: "hill-climb-racings-2",
+    title: "Hill Climb Racings 2",
+    src: "https://html5.gamemonetize.co/1vxk8rfmkpin0l0ex7atiuftp6l3mu6p/",
+    img: "https://img.gamemonetize.com/1vxk8rfmkpin0l0ex7atiuftp6l3mu6p/512x384.jpg",
+    tags: ["Adventure", "Funny", "Kids", "kiz10", "Racing"]
+  },
+  {
+    id: "master-hole-battle",
+    title: "Master Hole Battle",
+    src: "https://html5.gamemonetize.co/qc2gzd8xxzq5njf70rf35ukr1no47ocf/",
+    img: "https://img.gamemonetize.com/qc2gzd8xxzq5njf70rf35ukr1no47ocf/512x384.jpg",
+    tags: ["Puzzle"]
+  },
+  {
+    id: "perfect-jump-puzzle-game",
+    title: "Perfect Jump Puzzle Game",
+    src: "https://html5.gamemonetize.co/p93c0df78gfun4l3pjgef3nw04uqfyeg/",
+    img: "https://img.gamemonetize.com/p93c0df78gfun4l3pjgef3nw04uqfyeg/512x384.jpg",
+    tags: ["2026 games", "Arcade", "Hypercasual", "Puzzle"]
+  },
+  {
+    id: "doll-dress-up-game",
+    title: "Doll Dress up Game",
+    src: "https://html5.gamemonetize.co/by79pomr7kux6p3a2ejyv9uo6r0d9u05/",
+    img: "https://img.gamemonetize.com/by79pomr7kux6p3a2ejyv9uo6r0d9u05/512x384.jpg",
+    tags: ["2026 games", "amazing", "Baby Games", "Fun", "Girls"]
+  },
+  {
+    id: "weight-adjust-game",
+    title: "Weight Adjust Game",
+    src: "https://html5.gamemonetize.co/115o5ra9wml0zbgwkhazf359vrdma2c4/",
+    img: "https://img.gamemonetize.com/115o5ra9wml0zbgwkhazf359vrdma2c4/512x384.jpg",
+    tags: ["amazing", "Casual", "Fun", "Hypercasual", "Skill"]
+  },
+  {
+    id: "mineblock-zombie-survival",
+    title: "Mineblock Zombie Survival",
+    src: "https://html5.gamemonetize.co/e0lwaarmyi3w7mdlfrxtis4c5qt2l68r/",
+    img: "https://img.gamemonetize.com/e0lwaarmyi3w7mdlfrxtis4c5qt2l68r/512x384.jpg",
+    tags: ["Block", "Minecraft", "Shoot", "Shooter", "Shooting", "survival", "Zombie"]
+  },
+  {
+    id: "minecraft-diamond-miner",
+    title: "Minecraft Diamond Miner",
+    src: "https://html5.gamemonetize.co/3ayvpakkoynqv0heieom2wbt2zscijpn/",
+    img: "https://img.gamemonetize.com/3ayvpakkoynqv0heieom2wbt2zscijpn/512x384.jpg",
+    tags: ["Arcade", "Mine", "Minecraft", "Miner", "Puzzle"]
+  },
+  {
+    id: "the-best-memory",
+    title: "The Best Memory",
+    src: "https://html5.gamemonetize.co/a78mxs6j39xuvq52pthxhq24fxficsi7/",
+    img: "https://img.gamemonetize.com/a78mxs6j39xuvq52pthxhq24fxficsi7/512x384.jpg",
+    tags: ["1 Player", "Best", "Fun", "Funny", "Kids", "Matching", "Memory", "Mobile", "Skill"]
+  },
+  {
+    id: "balloon-pop-master",
+    title: "Balloon Pop Master",
+    src: "https://html5.gamemonetize.co/kapfvra3zri06z6ohm6wm92s9yiwtpbi/",
+    img: "https://img.gamemonetize.com/kapfvra3zri06z6ohm6wm92s9yiwtpbi/512x384.jpg",
+    tags: ["1 Player", "2026 games", "Arcade", "Animal", "Best Games", "Boys"]
+  },
+  {
+    id: "jumen",
+    title: "Jumen",
+    src: "https://html5.gamemonetize.co/4i5l161x3ttlf4mz8n02b0fvfkust3o4/",
+    img: "https://img.gamemonetize.com/4i5l161x3ttlf4mz8n02b0fvfkust3o4/512x720.jpg",
+    tags: ["Baby Games"]
+  },
+  {
+    id: "springle-puzzle",
+    title: "Springle Puzzle",
+    src: "https://html5.gamemonetize.co/7o41rgtyzwezdwm3a58yl1a5o6pwyw3q/",
+    img: "https://img.gamemonetize.com/7o41rgtyzwezdwm3a58yl1a5o6pwyw3q/512x384.jpg",
+    tags: ["Brain", "Jigsaw", "Puzzle", "Skill"]
+  },
+  {
+    id: "water-sort-puzzle-italian-brainrot",
+    title: "Water Sort Puzzle Italian Brainrot",
+    src: "https://html5.gamemonetize.co/00e7bfbvq86f5uwgkkow9aiwbjcsfamn/",
+    img: "https://img.gamemonetize.com/00e7bfbvq86f5uwgkkow9aiwbjcsfamn/512x384.jpg",
+    tags: ["Brainrot", "Color", "sort", "water"]
+  },
+  {
+    id: "tiles-layer",
+    title: "Tiles Layer",
+    src: "https://html5.gamemonetize.co/z7vx1dqudlz1mt2ywkxyqosrwq8e4dtv/",
+    img: "https://img.gamemonetize.com/z7vx1dqudlz1mt2ywkxyqosrwq8e4dtv/512x384.jpg",
+    tags: ["Casual", "Clicker", "Fun", "Puzzle"]
+  },
+  {
+    id: "ice-blast-buddies",
+    title: "Ice Blast Buddies",
+    src: "https://html5.gamemonetize.co/ravkpk123ps3xmeghr8re6miv06rgqay/",
+    img: "https://img.gamemonetize.com/ravkpk123ps3xmeghr8re6miv06rgqay/512x384.jpg",
+    tags: ["Casual", "Ice", "Match 3", "Puzzle"]
+  },
+  {
+    id: "sweet-merge-puzzle",
+    title: "Sweet Merge Puzzle",
+    src: "https://html5.gamemonetize.co/c84tgvtrqgd2hi3mhhlvx0heu5ujpjh8/",
+    img: "https://img.gamemonetize.com/c84tgvtrqgd2hi3mhhlvx0heu5ujpjh8/512x384.jpg",
+    tags: ["2026 games", "Arcade", "Candy", "Casual", "Puzzle", "swipe"]
+  },
+{
+  id: "urban-echo",
+  title: "Urban Echo",
+  src: "https://html5.gamemonetize.co/x6ec3zk1a76zhzjz4ztnyg1dw157pppv/",
+  img: "https://img.gamemonetize.com/x6ec3zk1a76zhzjz4ztnyg1dw157pppv/512x384.jpg",
+  tags: ["Adventure", "Jumping", "running", "Street Fighting"],
+  walkthrough: { gameid: "urban-echo" }
+},
   {
     id: "fill-line-puzzle",
     title: "Fill Line : One Line Puzzle",
