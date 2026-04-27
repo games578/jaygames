@@ -1,4 +1,83 @@
 const games = [
+  // ===== GAMEMONETIZE FEED =====
+  {
+    id: "fill-line-puzzle",
+    title: "Fill Line : One Line Puzzle",
+    src: "https://html5.gamemonetize.co/2x307mdmfkmohpv25ukcq2eqjwlnpesy/",
+    img: "https://img.gamemonetize.com/2x307mdmfkmohpv25ukcq2eqjwlnpesy/512x384.jpg",
+    tags: ["puzzle", "new"]
+  },
+  {
+    id: "astro-racing",
+    title: "Astro Racing",
+    src: "https://html5.gamemonetize.co/ctty3hla6y6cocro7k8tr4egapzms8re/",
+    img: "https://img.gamemonetize.com/ctty3hla6y6cocro7k8tr4egapzms8re/512x384.jpg",
+    tags: ["racing", "new"]
+  },
+  {
+    id: "cookie-party-pop",
+    title: "Cookie Party Pop",
+    src: "https://html5.gamemonetize.co/m4a1m90ajt2q62i7lzavxhkgkjzltsci/",
+    img: "https://img.gamemonetize.com/m4a1m90ajt2q62i7lzavxhkgkjzltsci/512x384.jpg",
+    tags: ["puzzle", "new"]
+  },
+  {
+    id: "minecraft-hole-io",
+    title: "Minecraft Hole IO",
+    src: "https://html5.gamemonetize.co/6ydz0v3vv6xdggvwo3gvwhnitooamaaj/",
+    img: "https://img.gamemonetize.com/6ydz0v3vv6xdggvwo3gvwhnitooamaaj/512x384.jpg",
+    tags: ["new", "popular"]
+  },
+  {
+    id: "hidden-aquatic",
+    title: "Hidden Aquatic",
+    src: "https://html5.gamemonetize.co/dqy1bift08w4axixlt60f0np1ut1kl2q/",
+    img: "https://img.gamemonetize.com/dqy1bift08w4axixlt60f0np1ut1kl2q/512x384.jpg",
+    tags: ["puzzle", "new"]
+  },
+  {
+    id: "frozen-princess-puzzle",
+    title: "Frozen Princess Puzzle",
+    src: "https://html5.gamemonetize.co/6rvbx8carxo83w6m5sby3qyqbw07m784/",
+    img: "https://img.gamemonetize.com/6rvbx8carxo83w6m5sby3qyqbw07m784/512x384.jpg",
+    tags: ["puzzle", "new", "adventure"]
+  },
+  {
+    id: "ultra-crash-car-simulator",
+    title: "Ultra Crash Car Simulator 2026",
+    src: "https://html5.gamemonetize.co/bevbu07wktcxyyg5hwz42yh36bg5maio/",
+    img: "https://img.gamemonetize.com/bevbu07wktcxyyg5hwz42yh36bg5maio/512x384.jpg",
+    tags: ["racing", "3d", "new"]
+  },
+  {
+    id: "world-tour",
+    title: "World Tour",
+    src: "https://html5.gamemonetize.co/dxqtr8dq8nkrisyhrpjsjm9ybvl613wm/",
+    img: "https://img.gamemonetize.com/dxqtr8dq8nkrisyhrpjsjm9ybvl613wm/512x384.jpg",
+    tags: ["new"]
+  },
+  {
+    id: "hill-climb-racing-2",
+    title: "Hill Climb Racing 2",
+    src: "https://html5.gamemonetize.co/1vxk8rfmkpin0l0ex7atiuftp6l3mu6p/",
+    img: "https://img.gamemonetize.com/1vxk8rfmkpin0l0ex7atiuftp6l3mu6p/512x384.jpg",
+    tags: ["racing", "new", "popular"]
+  },
+  {
+    id: "master-hole-battle",
+    title: "Master Hole Battle",
+    src: "https://html5.gamemonetize.co/qc2gzd8xxzq5njf70rf35ukr1no47ocf/",
+    img: "https://img.gamemonetize.com/qc2gzd8xxzq5njf70rf35ukr1no47ocf/512x384.jpg",
+    tags: ["adventure", "new"]
+  },
+  {
+    id: "perfect-jump-puzzle",
+    title: "Perfect Jump Puzzle",
+    src: "https://html5.gamemonetize.co/p93c0df78gfun4l3pjgef3nw04uqfyeg/",
+    img: "https://img.gamemonetize.com/p93c0df78gfun4l3pjgef3nw04uqfyeg/512x384.jpg",
+    tags: ["puzzle", "new"]
+  },
+
   // ===== FROM YOUR UPDATED ZIP =====
   {
     id: "slope",
