@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Best Links - Lumousa</title>
+  <title>Quick Links - Lumousa</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background: #0f0f0f;
       color: #fff;
       font-family: Arial, sans-serif;
-      height: 100vh;
+      min-height: 100vh;
       overflow: auto;
     }
     .header {
       background: #1a1a1a;
       padding: 15px;
       text-align: center;
-      font-size: 24px;
+      font-size: 22px;
       border-bottom: 3px solid #333;
       position: sticky;
       top: 0;
@@ -25,69 +25,87 @@
     }
     .container {
       padding: 30px 20px;
-      max-width: 900px;
+      max-width: 850px;
       margin: 0 auto;
+    }
+    .proxy-btn {
+      background: #0066ff;
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 30px;
+      width: 100%;
+      transition: 0.3s;
+    }
+    .proxy-btn:hover {
+      background: #3388ff;
+      transform: scale(1.03);
     }
     h1 {
       text-align: center;
-      margin-bottom: 10px;
+      margin: 20px 0 10px;
+      font-size: 26px;
     }
     p.intro {
       text-align: center;
       color: #aaa;
-      margin-bottom: 40px;
-      font-size: 16px;
+      margin-bottom: 30px;
+      font-size: 15px;
     }
     .link-card {
       background: #1f1f1f;
-      border-radius: 12px;
-      padding: 18px 20px;
-      margin: 12px 0;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin: 10px 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: 0.3s;
-    }
-    .link-card:hover {
-      background: #2a2a2a;
+      font-size: 15px;
     }
     .link-info h3 {
-      margin: 0 0 5px 0;
-      font-size: 20px;
+      margin: 0 0 4px 0;
+      font-size: 18px;
     }
     .link-info p {
-      color: #aaa;
-      font-size: 14px;
+      color: #999;
+      font-size: 13.5px;
     }
     .copy-btn {
       background: #333;
       color: white;
       border: none;
-      padding: 10px 16px;
+      padding: 9px 16px;
       border-radius: 8px;
       cursor: pointer;
       font-size: 14px;
+      min-width: 70px;
     }
-    .copy-btn:hover {
-      background: #555;
-    }
+    .copy-btn:hover { background: #555; }
   </style>
 </head>
 <body>
 
-  <div class="header">Best Website Links</div>
+  <div class="header">Lumousa Quick Links</div>
 
   <div class="container">
-    <h1>Quick Copy Links</h1>
+
+    <!-- Proxy Button -->
+    <button class="proxy-btn" onclick="openProxy()">
+      🔗 Open Full Proxy (Type any website here)
+    </button>
+
+    <h1>Best Quick Links</h1>
     <p class="intro">
-      Click the <strong>Copy</strong> button next to any link.<br>
-      Then go to the Proxy and paste it in the top address bar.
+      Click <strong>Copy</strong> → Go to Proxy → Paste in the top bar → Press Enter
     </p>
 
     <div class="link-card">
       <div class="link-info">
         <h3>🎮 GeForce Now</h3>
-        <p>https://www.nvidia.com/en-us/geforce-now/</p>
+        <p>Cloud gaming - Play high-end PC games in browser</p>
       </div>
       <button class="copy-btn" onclick="copyLink('https://www.nvidia.com/en-us/geforce-now/')">Copy</button>
     </div>
@@ -95,7 +113,7 @@
     <div class="link-card">
       <div class="link-info">
         <h3>📱 TikTok</h3>
-        <p>https://www.tiktok.com</p>
+        <p>Short videos and trends</p>
       </div>
       <button class="copy-btn" onclick="copyLink('https://www.tiktok.com')">Copy</button>
     </div>
@@ -103,7 +121,7 @@
     <div class="link-card">
       <div class="link-info">
         <h3>▶️ YouTube</h3>
-        <p>https://www.youtube.com</p>
+        <p>Videos, music, and livestreams</p>
       </div>
       <button class="copy-btn" onclick="copyLink('https://www.youtube.com')">Copy</button>
     </div>
@@ -111,7 +129,7 @@
     <div class="link-card">
       <div class="link-info">
         <h3>🎮 Easyfun.gg Roblox</h3>
-        <p>https://www.easyfun.gg</p>
+        <p>Best way to play Roblox in browser (2026)</p>
       </div>
       <button class="copy-btn" onclick="copyLink('https://www.easyfun.gg')">Copy</button>
     </div>
@@ -119,7 +137,7 @@
     <div class="link-card">
       <div class="link-info">
         <h3>🎮 now.gg Roblox</h3>
-        <p>https://now.gg/apps/roblox-corporation/5349/roblox.html</p>
+        <p>Another good Roblox cloud gaming site</p>
       </div>
       <button class="copy-btn" onclick="copyLink('https://now.gg/apps/roblox-corporation/5349/roblox.html')">Copy</button>
     </div>
@@ -127,17 +145,9 @@
     <div class="link-card">
       <div class="link-info">
         <h3>💬 Discord</h3>
-        <p>https://discord.com/app</p>
+        <p>Chat with friends (web version)</p>
       </div>
       <button class="copy-btn" onclick="copyLink('https://discord.com/app')">Copy</button>
-    </div>
-
-    <div class="link-card">
-      <div class="link-info">
-        <h3>🔍 Google</h3>
-        <p>https://www.google.com</p>
-      </div>
-      <button class="copy-btn" onclick="copyLink('https://www.google.com')">Copy</button>
     </div>
 
   </div>
@@ -145,16 +155,20 @@
   <script>
     function copyLink(url) {
       navigator.clipboard.writeText(url).then(() => {
-        const btn = event.target;
-        const originalText = btn.textContent;
-        btn.textContent = "Copied!";
+        const btn = event.currentTarget;
+        const original = btn.textContent;
+        btn.textContent = "✅ Copied!";
         btn.style.background = "#4CAF50";
-        
+
         setTimeout(() => {
-          btn.textContent = originalText;
+          btn.textContent = original;
           btn.style.background = "#333";
         }, 2000);
       });
+    }
+
+    function openProxy() {
+      window.open("https://scramjet.mercurywork.shop/", "_blank");
     }
   </script>
 
