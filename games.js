@@ -886,6 +886,17 @@ const games = [
     img: "https://unblocked-games.s3.amazonaws.com/media/posts/743/responsive/backflip-challenge-game-sm.webp",
     tags: ["adventure", "survival",  "popular"]
   },
+  {
+    id: "ultra-crash-car-simulator-2026",
+    title: "Ultra Crash Car Simulator 2026",
+    src: "https://html5.gamemonetize.co/bevbu07wktcxyyg5hwz42yh36bg5maio/",
+    img: "game%20logos/ultra crash car simulator 2026-512x340.jpg",
+    tags: ["racing", "3d", "simulators", "new"],
+    walkthrough: {
+      gameid: "bevbu07wktcxyyg5hwz42yh36bg5maio",
+      width: "100%",
+      height: "480px",
+      color: "#3f007e"
+    }
+  },
 ];
-
-
