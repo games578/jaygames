@@ -24,13 +24,18 @@
       padding: 40px 20px;
       text-align: center;
     }
+    .section-title {
+      margin: 40px 0 20px;
+      font-size: 24px;
+      color: #ccc;
+    }
     .app-card {
       display: inline-block;
       background: #1f1f1f;
       border-radius: 12px;
-      padding: 30px 20px;
-      margin: 15px;
-      width: 320px;
+      padding: 25px 20px;
+      margin: 12px;
+      width: 300px;
       cursor: pointer;
       transition: all 0.3s;
     }
@@ -39,11 +44,12 @@
       background: #2a2a2a;
     }
     .app-card h2 {
-      font-size: 26px;
-      margin: 15px 0 8px;
+      font-size: 23px;
+      margin: 10px 0 6px;
     }
     .app-card p {
       color: #aaa;
+      font-size: 14px;
     }
     iframe {
       width: 100%;
@@ -72,24 +78,46 @@
 </head>
 <body>
 
-  <div class="header">Lumousa Apps - Unblocked</div>
+  <div class="header">Lumousa Quick Apps</div>
 
   <div class="container" id="appsPage">
-    <h1 style="margin-bottom: 40px;">Quick Access</h1>
 
-    <!-- Proxy Card -->
-    <div class="app-card" onclick="loadProxy()">
-      <h2>🔗 Proxy</h2>
-      <p>Browse any website</p>
+    <h1 style="margin-bottom: 10px;">Best Website Links</h1>
+    <p style="color: #aaa; max-width: 600px; margin: 0 auto 40px;">
+      One-click access to popular unblocked sites. 
+      Click any card below to open directly through proxy.
+    </p>
+
+    <!-- Best Websites Cards -->
+    <div class="app-card" onclick="loadSite('https://www.tiktok.com')">
+      <h2>📱 TikTok</h2>
+      <p>Short Videos</p>
     </div>
 
-    <!-- You can add more cards below easily -->
-    <!-- Example:
     <div class="app-card" onclick="loadSite('https://www.youtube.com')">
       <h2>▶️ YouTube</h2>
-      <p>Videos</p>
+      <p>Videos & Music</p>
     </div>
-    -->
+
+    <div class="app-card" onclick="loadSite('https://www.nvidia.com/en-us/geforce-now/')">
+      <h2>🎮 GeForce Now</h2>
+      <p>Cloud Gaming</p>
+    </div>
+
+    <div class="app-card" onclick="loadSite('https://www.easyfun.gg')">
+      <h2>🎮 Easyfun.gg Roblox</h2>
+      <p>Best Cloud Roblox 2026</p>
+    </div>
+
+    <div class="app-card" onclick="loadSite('https://now.gg/apps/roblox-corporation/5349/roblox.html')">
+      <h2>🎮 now.gg Roblox</h2>
+      <p>Roblox Cloud Gaming</p>
+    </div>
+
+    <div class="app-card" onclick="loadProxy()">
+      <h2>🔗 Full Proxy</h2>
+      <p>Browse Any Website</p>
+    </div>
 
   </div>
 
@@ -100,21 +128,19 @@
   <script>
     const proxyBase = "https://scramjet.mercurywork.shop/";
 
-    function loadProxy() {
-      document.getElementById('appsPage').style.display = 'none';
-      document.getElementById('backBtn').style.display = 'block';
-
-      const frame = document.getElementById('proxyFrame');
-      frame.src = proxyBase;        // Opens the clean Scramjet homepage
-      frame.style.display = 'block';
-    }
-
-    // Optional: Add this if you want direct loading for other sites later
     function loadSite(url) {
       document.getElementById('appsPage').style.display = 'none';
       document.getElementById('backBtn').style.display = 'block';
       const frame = document.getElementById('proxyFrame');
       frame.src = proxyBase + encodeURIComponent(url);
+      frame.style.display = 'block';
+    }
+
+    function loadProxy() {
+      document.getElementById('appsPage').style.display = 'none';
+      document.getElementById('backBtn').style.display = 'block';
+      const frame = document.getElementById('proxyFrame');
+      frame.src = proxyBase;
       frame.style.display = 'block';
     }
 
