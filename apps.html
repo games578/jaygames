@@ -1,8 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1191415751531949"
-     crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lumousa Quick Links</title>
@@ -93,6 +91,7 @@
       transition: all 0.2s;
     }
     .copy-btn:hover { background: #4CAF50; color: white; }
+
     .back-btn {
       position: fixed;
       top: 20px;
@@ -102,12 +101,23 @@
       padding: 12px 20px;
       border-radius: 10px;
       cursor: pointer;
-      z-index: 100;
+      z-index: 1000;
       display: none;
       font-size: 16px;
-      transition: 0.3s;
     }
     .back-btn:hover { background: #555; }
+
+    /* Important: Make iframe on top when active */
+    #proxyFrame {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      border: none;
+      z-index: 9999;           /* Very high z-index */
+    }
   </style>
 </head>
 <body>
@@ -126,6 +136,7 @@
       Click "Copy" → Go to Proxy → Paste in the top bar and press Enter
     </p>
 
+    <!-- Your link cards here (same as before) -->
     <div class="link-card">
       <div class="link-info">
         <h3>🎮 GeForce Now</h3>
@@ -177,10 +188,11 @@
 
   <button class="back-btn" id="backBtn" onclick="goBack()">← Back to Links</button>
 
-  <iframe id="proxyFrame" style="display:none; width:100%; height:100vh; border:none; position:fixed; top:0; left:0; z-index:999;" allowfullscreen></iframe>
+  <!-- Proxy iframe -->
+  <iframe id="proxyFrame" allowfullscreen></iframe>
 
   <script>
-    // === INTERACTIVE PARTICLES (Repel effect) ===
+    // Particles (same as before - kept simple)
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -205,7 +217,6 @@
         this.x += this.speedX;
         this.y += this.speedY;
 
-        // Strong repel from mouse
         const dx = this.x - mouse.x;
         const dy = this.y - mouse.y;
         const distance = Math.sqrt(dx*dx + dy*dy);
@@ -216,15 +227,8 @@
           this.speedY += (dy / distance) * force * 2.5;
         }
 
-        // Gentle random movement
         this.speedX *= 0.98;
         this.speedY *= 0.98;
-
-        // Wrap around screen
-        if (this.x < 0) this.x = canvas.width;
-        if (this.x > canvas.width) this.x = 0;
-        if (this.y < 0) this.y = canvas.height;
-        if (this.y > canvas.height) this.y = 0;
       }
       draw() {
         ctx.fillStyle = 'rgba(80, 160, 255, 0.75)';
@@ -236,16 +240,16 @@
 
     function initParticles() {
       particles = [];
-      for (let i = 0; i < 90; i++) particles.push(new Particle());
+      for (let i = 0; i < 80; i++) particles.push(new Particle());
     }
 
-    function animateParticles() {
+    function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (let p of particles) {
         p.update();
         p.draw();
       }
-      requestAnimationFrame(animateParticles);
+      requestAnimationFrame(animate);
     }
 
     window.addEventListener('mousemove', (e) => {
@@ -254,12 +258,13 @@
     });
 
     initParticles();
-    animateParticles();
+    animate();
 
-    // === Proxy & Back Button ===
+    // === FIXED PROXY FUNCTIONS ===
     function openProxy() {
-      document.getElementById('proxyFrame').src = "https://scramjet.mercurywork.shop/";
-      document.getElementById('proxyFrame').style.display = "block";
+      const frame = document.getElementById('proxyFrame');
+      frame.src = "https://scramjet.mercurywork.shop/";
+      frame.style.display = "block";
       document.getElementById('backBtn').style.display = "block";
     }
 
@@ -270,20 +275,16 @@
       document.getElementById('backBtn').style.display = 'none';
     }
 
-    // === Fixed Copy Function ===
+    // Copy function
     function copyLink(btn, url) {
       navigator.clipboard.writeText(url).then(() => {
-        const originalText = btn.innerHTML;
+        const original = btn.innerHTML;
         btn.innerHTML = "✅ Copied!";
         btn.style.background = "#4CAF50";
-
         setTimeout(() => {
-          btn.innerHTML = originalText;
+          btn.innerHTML = original;
           btn.style.background = "#333";
         }, 1800);
-      }).catch(() => {
-        btn.innerHTML = "Failed";
-        setTimeout(() => btn.innerHTML = "Copy", 1500);
       });
     }
   </script>
