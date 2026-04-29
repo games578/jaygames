@@ -39,7 +39,6 @@
         margin: 0;
         padding: 0;
       }
-
       :root {
         --bg: #08090d;
         --bg2: #0f1118;
@@ -61,7 +60,6 @@
         --sidebar-w: 220px;
         --mono: "JetBrains Mono", monospace;
       }
-
       body {
         font-family: "Outfit", sans-serif;
         background: var(--bg);
@@ -69,7 +67,6 @@
         min-height: 100vh;
         overflow-x: hidden;
       }
-
       body::before {
         content: "";
         position: fixed;
@@ -242,8 +239,14 @@
         background: var(--jay3);
         box-shadow: 0 0 16px rgba(255, 107, 53, 0.4);
       }
-      .user-avatar {
+
+      /* ── USER DROPDOWN ── */
+      .user-menu-wrap {
+        position: relative;
         display: none;
+      }
+      .user-avatar-btn {
+        display: flex;
         align-items: center;
         gap: 8px;
         cursor: pointer;
@@ -253,7 +256,7 @@
         padding: 5px 12px 5px 5px;
         transition: border-color 0.2s;
       }
-      .user-avatar:hover {
+      .user-avatar-btn:hover {
         border-color: var(--border2);
       }
       .avatar-circle {
@@ -266,10 +269,124 @@
         justify-content: center;
         font-size: 14px;
         font-weight: 800;
+        color: #fff;
       }
       .avatar-name {
         font-size: 13px;
         font-weight: 600;
+      }
+      .user-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        width: 260px;
+        background: var(--bg2);
+        border: 1px solid var(--border2);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        z-index: 500;
+        display: none;
+      }
+      .user-dropdown.open {
+        display: block;
+        animation: fadeDown 0.15s ease;
+      }
+      @keyframes fadeDown {
+        from {
+          opacity: 0;
+          transform: translateY(-6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .dropdown-header {
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .dropdown-avatar-big {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--jay), var(--purple));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 800;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .dropdown-username {
+        font-size: 15px;
+        font-weight: 800;
+      }
+      .dropdown-email-sm {
+        font-size: 11px;
+        color: var(--text3);
+        margin-top: 2px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 150px;
+      }
+      .dropdown-profile-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 12px;
+        padding: 10px;
+        background: var(--jay);
+        border-radius: 10px;
+        color: #fff;
+        font-weight: 700;
+        font-size: 13px;
+        text-decoration: none;
+        transition: 0.2s;
+      }
+      .dropdown-profile-btn:hover {
+        background: var(--jay3);
+      }
+      .dropdown-links {
+        padding: 4px 0 8px;
+      }
+      .dropdown-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        color: var(--text2);
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        transition: 0.15s;
+        font-family: "Outfit", sans-serif;
+      }
+      .dropdown-link:hover {
+        color: var(--text);
+        background: var(--bg3);
+      }
+      .dropdown-divider {
+        height: 1px;
+        background: var(--border);
+        margin: 4px 0;
+      }
+      .dropdown-link.logout {
+        color: #ef4444;
+      }
+      .dropdown-link.logout:hover {
+        background: rgba(239, 68, 68, 0.1);
       }
 
       /* ── LAYOUT ── */
@@ -544,6 +661,104 @@
         transform: translateY(-4px);
         box-shadow: 0 12px 32px rgba(255, 107, 53, 0.2);
       }
+      .game-preview-popup {
+        position: fixed;
+        z-index: 9999;
+        width: 340px;
+        background: var(--bg2);
+        border: 1px solid var(--border2);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.8),
+          0 0 0 1px rgba(255, 107, 53, 0.15);
+        pointer-events: none;
+        opacity: 0;
+        transform: scale(0.93) translateY(6px);
+        transition:
+          opacity 0.18s ease,
+          transform 0.18s ease;
+        display: none;
+      }
+      .game-preview-popup.visible {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        display: block;
+      }
+      .preview-frame-wrap {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/10;
+        background: #000;
+        overflow: hidden;
+      }
+      .preview-frame-wrap iframe {
+        width: 200%;
+        height: 200%;
+        transform: scale(0.5);
+        transform-origin: top left;
+        border: none;
+        pointer-events: none;
+      }
+      .preview-loading {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: var(--bg3);
+        color: var(--text2);
+        font-size: 12px;
+      }
+      .preview-spinner {
+        width: 24px;
+        height: 24px;
+        border: 2px solid var(--border2);
+        border-top-color: var(--jay);
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .preview-info {
+        padding: 10px 14px 12px;
+      }
+      .preview-title {
+        font-size: 13px;
+        font-weight: 800;
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .preview-tags {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .preview-tag {
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 2px 7px;
+        border-radius: 4px;
+        background: var(--bg4);
+        border: 1px solid var(--border2);
+        color: var(--text2);
+      }
+      .preview-play-hint {
+        margin-top: 7px;
+        font-size: 10px;
+        color: var(--jay);
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
       .fav-btn {
         position: absolute;
         top: 7px;
@@ -654,7 +869,6 @@
         background: rgba(59, 130, 246, 0.15);
         color: #60a5fa;
       }
-
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -743,7 +957,7 @@
         transform: translateY(-2px);
       }
 
-      /* ── MODAL ── */
+      /* ── GAME MODAL ── */
       #modal {
         display: none;
         position: fixed;
@@ -830,42 +1044,139 @@
         background: #000;
       }
 
-      /* ── AUTH MODAL ── */
-      #authModal {
+      /* ── AUTH MODAL (MULTI-STEP CRAZYGAMES STYLE) ── */
+      #authOverlay {
         display: none;
         position: fixed;
         inset: 0;
         z-index: 600;
         background: rgba(0, 0, 0, 0.85);
         backdrop-filter: blur(8px);
-        align-items: center;
-        justify-content: center;
+        align-items: flex-start;
+        justify-content: flex-end;
       }
-      #authModal.open {
+      #authOverlay.open {
         display: flex;
       }
-      .auth-box {
+      .auth-panel {
+        width: min(90vw, 340px);
         background: var(--bg2);
-        border: 1px solid var(--border2);
-        border-radius: 20px;
-        padding: 36px 32px;
-        width: min(90vw, 420px);
-        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        border-left: 1px solid var(--border2);
+        height: 100vh;
+        overflow-y: auto;
+        padding: 24px;
+        position: relative;
+        animation: slideInRight 0.2s ease;
       }
-      .auth-title {
+      @keyframes slideInRight {
+        from {
+          transform: translateX(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      .auth-panel-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text2);
+        cursor: pointer;
+        padding: 6px 10px;
+        font-size: 16px;
+        transition: 0.2s;
+        line-height: 1;
+      }
+      .auth-panel-close:hover {
+        color: var(--text);
+      }
+      .auth-step {
+        display: none;
+      }
+      .auth-step.active {
+        display: block;
+      }
+
+      /* Step 1: Login or Sign Up */
+      .auth-step-title {
         font-size: 22px;
         font-weight: 900;
         margin-bottom: 4px;
+        margin-top: 8px;
       }
-      .auth-sub {
+      .auth-step-sub {
         color: var(--text2);
         font-size: 13px;
         margin-bottom: 24px;
       }
+      .social-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 10px;
+        font-family: "Outfit", sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        border: 1px solid var(--border2);
+        margin-bottom: 10px;
+        transition: 0.2s;
+        text-decoration: none;
+        color: var(--text);
+      }
+      .social-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      }
+      .social-btn.google {
+        background: #fff;
+        color: #1a1a1a;
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+      .social-btn.facebook {
+        background: #1877f2;
+        color: #fff;
+        border-color: #1877f2;
+      }
+      .social-btn.apple {
+        background: #000;
+        color: #fff;
+        border-color: #333;
+      }
+      .social-btn img,
+      .social-btn .si {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        flex-shrink: 0;
+      }
+      .auth-or {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 16px 0;
+        color: var(--text3);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .auth-or::before,
+      .auth-or::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border2);
+      }
       .auth-tabs {
         display: flex;
         gap: 0;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         background: var(--bg3);
         border-radius: 10px;
         padding: 4px;
@@ -928,24 +1239,253 @@
         background: var(--jay3);
         box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
       }
-      .auth-close {
+      .auth-submit:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .auth-error {
+        color: #ef4444;
+        font-size: 12px;
+        margin-bottom: 8px;
+        display: none;
+        padding: 8px 12px;
+        background: rgba(239, 68, 68, 0.1);
+        border-radius: 8px;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+      }
+
+      /* Step 2: Set Username */
+      .username-input-wrap {
+        position: relative;
+      }
+      .username-input-wrap input {
+        padding-right: 40px;
+      }
+      .username-spinner {
         position: absolute;
-        top: 12px;
         right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--border2);
+        border-top-color: var(--jay);
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        display: none;
+      }
+      .username-rules {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .rule {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--text3);
+      }
+      .rule.ok {
+        color: var(--neon);
+      }
+      .rule.fail {
+        color: #ef4444;
+      }
+      .rule-icon {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 9px;
+        background: var(--bg4);
+        flex-shrink: 0;
+      }
+      .rule.ok .rule-icon {
+        background: rgba(0, 245, 212, 0.2);
+        color: var(--neon);
+      }
+      .rule.fail .rule-icon {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+      }
+      .warn-box {
+        background: rgba(255, 107, 53, 0.08);
+        border: 1px solid rgba(255, 107, 53, 0.2);
+        border-radius: 10px;
+        padding: 12px;
+        font-size: 12px;
+        color: var(--text2);
+        margin-top: 16px;
+        line-height: 1.6;
+      }
+      .warn-box strong {
+        color: var(--jay);
+      }
+
+      /* Step 3: Profile details */
+      .select-field {
+        width: 100%;
         background: var(--bg3);
         border: 1px solid var(--border);
-        border-radius: 8px;
+        border-radius: 9px;
+        padding: 10px 14px;
+        color: var(--text);
+        font-family: "Outfit", sans-serif;
+        font-size: 13px;
+        outline: none;
+        transition: border-color 0.2s;
+        appearance: none;
+        cursor: pointer;
+      }
+      .select-field:focus {
+        border-color: var(--jay);
+      }
+      .select-wrap {
+        position: relative;
+      }
+      .select-wrap::after {
+        content: "▾";
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text3);
+        pointer-events: none;
+        font-size: 12px;
+      }
+      .date-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .birthday-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+      }
+
+      /* Step 4: Account Created */
+      .created-wrap {
+        text-align: center;
+        padding: 20px 0;
+      }
+      .created-mascot {
+        font-size: 80px;
+        margin-bottom: 16px;
+        animation: bounce 0.6s ease;
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-12px);
+        }
+      }
+      .confetti-dots {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+        overflow: hidden;
+        height: 200px;
+      }
+      .confetti-dot {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        animation: confettiFall 1.5s ease forwards;
+      }
+      @keyframes confettiFall {
+        from {
+          opacity: 1;
+          transform: translateY(-20px) rotate(0deg);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(180px) rotate(360deg);
+        }
+      }
+      .created-title {
+        font-size: 24px;
+        font-weight: 900;
+        margin-bottom: 8px;
+      }
+      .created-sub {
+        font-size: 13px;
+        color: var(--text2);
+        margin-bottom: 24px;
+        line-height: 1.6;
+      }
+      .created-btn {
+        width: 100%;
+        padding: 13px;
+        border-radius: 10px;
+        font-family: "Outfit", sans-serif;
+        font-size: 14px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+        margin-bottom: 10px;
+      }
+      .created-btn.primary {
+        background: var(--jay);
+        color: #fff;
+      }
+      .created-btn.primary:hover {
+        background: var(--jay3);
+        box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+      }
+      .created-btn.secondary {
+        background: var(--bg3);
+        color: var(--text);
+        border: 1px solid var(--border2);
+      }
+      .created-btn.secondary:hover {
+        border-color: var(--jay);
+        color: var(--jay);
+      }
+      .created-privacy {
+        font-size: 11px;
+        color: var(--text3);
+        margin-top: 8px;
+        line-height: 1.6;
+        text-align: center;
+      }
+      .created-privacy a {
+        color: var(--jay);
+        text-decoration: none;
+      }
+
+      /* Step back arrow */
+      .auth-back-btn {
+        background: none;
+        border: none;
         color: var(--text2);
         cursor: pointer;
-        padding: 6px 10px;
         font-size: 16px;
+        padding: 4px 8px;
+        border-radius: 8px;
         transition: 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: "Outfit", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 16px;
       }
-      .auth-close:hover {
+      .auth-back-btn:hover {
         color: var(--text);
-      }
-      .auth-box {
-        position: relative;
       }
 
       /* ── FRIENDS PANEL ── */
@@ -1056,6 +1596,36 @@
         color: var(--jay);
       }
 
+      /* ── TOAST ── */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--bg2);
+        border: 1px solid var(--border2);
+        border-radius: 12px;
+        padding: 12px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        z-index: 9999;
+        opacity: 0;
+        transition: all 0.3s ease;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .toast.error {
+        border-color: rgba(239, 68, 68, 0.4);
+        background: rgba(239, 68, 68, 0.15);
+        color: #fca5a5;
+      }
+
       /* ── NO RESULTS ── */
       .no-results {
         grid-column: 1/-1;
@@ -1142,6 +1712,9 @@
     </style>
   </head>
   <body>
+    <!-- TOAST -->
+    <div id="globalToast" class="toast"></div>
+
     <!-- NAV -->
     <nav>
       <div class="nav-left">
@@ -1192,10 +1765,38 @@
         <button class="nav-icon-btn" id="favNavBtn" onclick="showFavourites()">
           ❤️ Favourites
         </button>
-        <div class="user-avatar" id="userAvatar" onclick="openAuth()">
-          <div class="avatar-circle" id="avatarCircle">J</div>
-          <span class="avatar-name" id="avatarName">Guest</span>
+
+        <!-- USER DROPDOWN (shown when logged in) -->
+        <div class="user-menu-wrap" id="userMenuWrap">
+          <div class="user-avatar-btn" onclick="toggleDropdown()">
+            <div class="avatar-circle" id="navAvatarCircle">J</div>
+            <span class="avatar-name" id="navAvatarName">User</span>
+          </div>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="dropdown-header">
+              <div class="dropdown-avatar-big" id="dropdownAvatarBig">J</div>
+              <div>
+                <div class="dropdown-username" id="dropdownUsername">
+                  Username
+                </div>
+                <div class="dropdown-email-sm" id="dropdownEmail">
+                  user@email.com
+                </div>
+              </div>
+            </div>
+            <a class="dropdown-profile-btn" href="profile.html">👤 Profile</a>
+            <div class="dropdown-links">
+              <a class="dropdown-link" href="#">🔔 Notification preferences</a>
+              <a class="dropdown-link" href="#">🔒 Privacy preferences</a>
+              <a class="dropdown-link" href="#">⚙️ Account settings</a>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-link logout" onclick="doLogout()">
+                🚪 Log out
+              </button>
+            </div>
+          </div>
         </div>
+
         <button class="login-btn" id="loginBtn" onclick="openAuth()">
           Log In
         </button>
@@ -1227,18 +1828,16 @@
           ><span class="sidebar-text">New Games</span>
           <span class="sidebar-badge">NEW</span>
         </button>
-
         <div class="sidebar-divider"></div>
         <div class="sidebar-section-label">Categories</div>
-
         <button
           class="sidebar-item"
           data-tag="brainrot"
           onclick="filterBy('brainrot', this)"
         >
           <span class="sidebar-icon">🧠</span
-          ><span class="sidebar-text">Brainrot</span>
-          <span class="sidebar-badge">🔥</span>
+          ><span class="sidebar-text">Brainrot</span
+          ><span class="sidebar-badge">🔥</span>
         </button>
         <button
           class="sidebar-item"
@@ -1336,24 +1935,22 @@
           <span class="sidebar-icon">⚽</span
           ><span class="sidebar-text">Soccer</span>
         </button>
-
         <div class="sidebar-divider"></div>
         <div class="sidebar-section-label">More</div>
-        <a class="sidebar-item" href="about.html">
-          <span class="sidebar-icon">ℹ️</span
-          ><span class="sidebar-text">About</span>
-        </a>
-        <a class="sidebar-item" href="earn.html" style="color: var(--neon)">
-          <span class="sidebar-icon">💰</span
-          ><span class="sidebar-text">Earn</span>
-        </a>
+        <a class="sidebar-item" href="about.html"
+          ><span class="sidebar-icon">ℹ️</span
+          ><span class="sidebar-text">About</span></a
+        >
+        <a class="sidebar-item" href="earn.html" style="color: var(--neon)"
+          ><span class="sidebar-icon">💰</span
+          ><span class="sidebar-text">Earn</span></a
+        >
       </aside>
 
       <!-- MAIN -->
       <main class="main-content" id="mainContent">
         <!-- HOME VIEW -->
         <div id="homeView">
-          <!-- CATEGORY TILES -->
           <div class="category-tiles">
             <div
               class="cat-tile cat-brain"
@@ -1389,8 +1986,6 @@
               <span class="cat-icon">✨</span><span>New Games</span>
             </div>
           </div>
-
-          <!-- TRENDING / BRAINROT -->
           <div class="section">
             <div class="section-header">
               <div class="section-title">
@@ -1403,8 +1998,6 @@
             </div>
             <div class="game-grid large" id="brainrotGrid"></div>
           </div>
-
-          <!-- ROBLOX-LIKE -->
           <div class="section">
             <div class="section-header">
               <div class="section-title">
@@ -1420,8 +2013,6 @@
             </div>
             <div class="game-grid large" id="robloxGrid"></div>
           </div>
-
-          <!-- HOT RIGHT NOW -->
           <div class="section">
             <div class="section-header">
               <div class="section-title">
@@ -1434,8 +2025,6 @@
             </div>
             <div class="game-grid" id="hotGrid"></div>
           </div>
-
-          <!-- NEW GAMES -->
           <div class="section">
             <div class="section-header">
               <div class="section-title">
@@ -1598,7 +2187,7 @@
           margin-bottom: 16px;
         "
       >
-        <div class="friends-title">👥 Friends Online</div>
+        <div class="friends-title">👥 Friends</div>
         <button
           onclick="toggleFriends()"
           style="
@@ -1612,64 +2201,488 @@
           ✕
         </button>
       </div>
-      <div class="friends-sub">See what your friends are playing</div>
+      <div id="friendsLoginPrompt">
+        <div class="friends-sub">Log in to see friends &amp; their games</div>
+        <button
+          class="auth-submit"
+          style="margin-top: 12px; width: 100%"
+          onclick="toggleFriends(); openAuth();"
+        >
+          Log In / Sign Up
+        </button>
+      </div>
+      <div id="friendsLoggedIn" style="display: none">
+        <div
+          style="
+            background: var(--bg3);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          "
+        >
+          <div
+            id="panelAvatar"
+            style="
+              width: 38px;
+              height: 38px;
+              border-radius: 50%;
+              background: linear-gradient(135deg, var(--jay), var(--purple));
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 16px;
+              font-weight: 800;
+              flex-shrink: 0;
+              color: #fff;
+            "
+          >
+            J
+          </div>
+          <div style="flex: 1; min-width: 0">
+            <div style="font-size: 13px; font-weight: 800" id="panelUsername">
+              You
+            </div>
+            <div style="font-size: 11px; color: var(--neon)">🟢 Online</div>
+          </div>
+          <button
+            onclick="doLogout()"
+            style="
+              background: none;
+              border: 1px solid var(--border2);
+              border-radius: 7px;
+              color: var(--text2);
+              font-size: 10px;
+              font-weight: 700;
+              padding: 4px 8px;
+              cursor: pointer;
+              font-family: Outfit, sans-serif;
+            "
+          >
+            Logout
+          </button>
+        </div>
+        <div style="margin-bottom: 14px">
+          <div
+            style="
+              font-size: 10px;
+              font-weight: 800;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: var(--text3);
+              margin-bottom: 8px;
+            "
+          >
+            Add Friend
+          </div>
+          <div style="display: flex; gap: 6px">
+            <input
+              id="friendSearchInput"
+              type="text"
+              placeholder="Enter username…"
+              style="
+                flex: 1;
+                background: var(--bg3);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 7px 10px;
+                color: var(--text);
+                font-family: Outfit, sans-serif;
+                font-size: 12px;
+                outline: none;
+                transition: border-color 0.2s;
+              "
+              onfocus="this.style.borderColor = 'var(--jay)'"
+              onblur="this.style.borderColor = 'var(--border)'"
+            />
+            <button
+              onclick="sendFriendRequest()"
+              style="
+                background: var(--jay);
+                border: none;
+                border-radius: 8px;
+                color: #000;
+                font-weight: 800;
+                font-size: 12px;
+                padding: 7px 12px;
+                cursor: pointer;
+                font-family: Outfit, sans-serif;
+              "
+            >
+              Add
+            </button>
+          </div>
+          <div id="friendAddMsg" style="font-size: 11px; margin-top: 5px"></div>
+        </div>
+        <div id="pendingSection" style="display: none; margin-bottom: 14px">
+          <div
+            style="
+              font-size: 10px;
+              font-weight: 800;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: var(--jay);
+              margin-bottom: 8px;
+            "
+          >
+            ⚡ Friend Requests
+          </div>
+          <div id="pendingList"></div>
+        </div>
+        <div
+          style="
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text3);
+            margin-bottom: 8px;
+          "
+        >
+          Your Friends
+        </div>
+        <div id="friendsList">
+          <div
+            style="
+              color: var(--text3);
+              font-size: 12px;
+              padding: 12px 0;
+              text-align: center;
+            "
+          >
+            No friends yet — add some above!
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <div class="friend-item">
-        <div
-          class="friend-avatar"
-          style="background: linear-gradient(135deg, #ff6b35, #ff3d00)"
-        >
-          😎
-        </div>
-        <div class="friend-info">
-          <div class="friend-name">xXGamer99Xx</div>
-          <div class="friend-status friend-online">
-            🟢 Playing Blox Survival
+    <!-- AUTH OVERLAY -->
+    <div id="authOverlay">
+      <div class="auth-panel" id="authPanel">
+        <button class="auth-panel-close" onclick="closeAuth()">✕</button>
+
+        <!-- STEP 1: Login / Sign Up -->
+        <div class="auth-step active" id="authStep1">
+          <div class="auth-step-title">Log in or sign up</div>
+          <div class="auth-step-sub">
+            Save favourites &amp; play with friends
+          </div>
+
+          <!-- Social buttons -->
+          <button class="social-btn google" onclick="doGoogleSignIn()">
+            <svg class="si" viewBox="0 0 24 24">
+              <path
+                fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+              />
+            </svg>
+            Continue with Google
+          </button>
+          <button class="social-btn facebook" onclick="showToast('Facebook sign-in coming soon!')">
+            <svg class="si" viewBox="0 0 24 24" fill="#fff">
+              <path
+                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+              />
+            </svg>
+            Continue with Facebook
+          </button>
+          <button class="social-btn apple" onclick="showToast('Apple sign-in coming soon!')">
+            <svg class="si" viewBox="0 0 24 24" fill="#fff">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
+              />
+            </svg>
+            Continue with Apple
+          </button>
+
+          <div class="auth-or">OR</div>
+
+          <div class="auth-tabs">
+            <div
+              class="auth-tab active"
+              id="tabLogin"
+              onclick="switchAuthTab('login')"
+            >
+              Log In
+            </div>
+            <div
+              class="auth-tab"
+              id="tabSignup"
+              onclick="switchAuthTab('signup')"
+            >
+              Sign Up
+            </div>
+          </div>
+
+          <!-- Login form -->
+          <div id="loginForm">
+            <div class="auth-field">
+              <label>Email</label
+              ><input
+                type="email"
+                id="loginEmail"
+                placeholder="your@email.com"
+              />
+            </div>
+            <div class="auth-field">
+              <label>Password</label
+              ><input
+                type="password"
+                id="loginPass"
+                placeholder="Enter password"
+                onkeydown="if (event.key === 'Enter') doLogin();"
+              />
+            </div>
+            <div id="loginError" class="auth-error"></div>
+            <button class="auth-submit" id="loginSubmitBtn" onclick="doLogin()">
+              Log In
+            </button>
+          </div>
+
+          <!-- Sign up form -->
+          <div id="signupForm" style="display: none">
+            <div class="auth-field">
+              <label>Email</label
+              ><input
+                type="email"
+                id="signupEmail"
+                placeholder="your@email.com"
+              />
+            </div>
+            <div class="auth-field">
+              <label>Password (6+ characters)</label
+              ><input
+                type="password"
+                id="signupPass"
+                placeholder="Create a strong password"
+                onkeydown="if (event.key === 'Enter') doSignupStep1();"
+              />
+            </div>
+            <div id="signupError" class="auth-error"></div>
+            <button
+              class="auth-submit"
+              id="signupSubmitBtn"
+              onclick="doSignupStep1()"
+            >
+              Continue
+            </button>
           </div>
         </div>
-        <button class="invite-btn">Join</button>
-      </div>
-      <div class="friend-item">
-        <div
-          class="friend-avatar"
-          style="background: linear-gradient(135deg, #a855f7, #7c3aed)"
-        >
-          🎮
-        </div>
-        <div class="friend-info">
-          <div class="friend-name">ProPlayer2026</div>
-          <div class="friend-status friend-online">
-            🟢 Playing Skibidi Runner
+
+        <!-- STEP 2: Set Username -->
+        <div class="auth-step" id="authStep2">
+          <div
+            style="
+              font-size: 11px;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: var(--text3);
+              margin-bottom: 20px;
+            "
+          >
+            Sign up
+          </div>
+          <div class="auth-step-title" style="font-size: 20px">
+            Set your username
+          </div>
+          <div style="height: 16px"></div>
+          <div class="auth-field">
+            <div class="username-input-wrap">
+              <input
+                type="text"
+                id="usernameInput"
+                placeholder="Choose a username"
+                maxlength="20"
+                oninput="checkUsername()"
+              />
+              <div class="username-spinner" id="usernameSpinner"></div>
+            </div>
+          </div>
+          <div class="username-rules" id="usernameRules">
+            <div class="rule" id="ruleLength">
+              <div class="rule-icon">✕</div>
+              <span>6 to 20 characters</span>
+            </div>
+            <div class="rule" id="ruleChars">
+              <div class="rule-icon">✕</div>
+              <span>Only letters, numbers, '-' and '.'</span>
+            </div>
+          </div>
+          <div
+            id="usernameError"
+            class="auth-error"
+            style="margin-top: 10px"
+          ></div>
+          <button
+            class="auth-submit"
+            id="usernameSubmitBtn"
+            style="margin-top: 16px"
+            onclick="doSetUsername()"
+            disabled
+          >
+            Continue
+          </button>
+          <div class="warn-box">
+            We will <strong>permanently ban</strong> accounts with toxic &amp;
+            inappropriate usernames without any notice. So let's keep the
+            community nice and safe for everybody!
           </div>
         </div>
-        <button class="invite-btn">Join</button>
+
+        <!-- STEP 3: Profile details -->
+        <div class="auth-step" id="authStep3">
+          <button class="auth-back-btn" onclick="goToStep(2)">← Back</button>
+          <div
+            style="
+              font-size: 11px;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: var(--text3);
+              margin-bottom: 20px;
+            "
+          >
+            Sign up
+          </div>
+          <div class="auth-step-title" style="font-size: 20px">
+            Tell us more about you
+          </div>
+          <div
+            style="font-size: 12px; color: var(--text3); margin-bottom: 24px"
+          >
+            You can update your personal details later in your profile
+          </div>
+
+          <div class="auth-field" style="margin-bottom: 14px">
+            <div class="select-wrap">
+              <select class="select-field" id="profileCountry">
+                <option value="">Country</option>
+                <option value="GB" selected>United Kingdom</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+                <option value="AU">Australia</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="auth-field" style="margin-bottom: 14px">
+            <div class="select-wrap">
+              <select class="select-field" id="profileGender">
+                <option value="">Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="nb">Non-binary</option>
+                <option value="prefer_not">Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label
+              style="
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--text2);
+                display: block;
+                margin-bottom: 8px;
+              "
+              >Birthday</label
+            >
+            <div class="birthday-row">
+              <div class="select-wrap">
+                <select class="select-field" id="bdMonth">
+                  <option value="">Month</option>
+                  <option>January</option><option>February</option>
+                  <option>March</option><option>April</option>
+                  <option>May</option><option>June</option>
+                  <option>July</option><option>August</option>
+                  <option>September</option><option>October</option>
+                  <option>November</option><option>December</option>
+                </select>
+              </div>
+              <div class="select-wrap">
+                <select class="select-field" id="bdDay">
+                  <option value="">Day</option>
+                  <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                  <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+                  <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+                  <option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
+                  <option>21</option><option>22</option><option>23</option><option>24</option><option>25</option>
+                  <option>26</option><option>27</option><option>28</option><option>29</option><option>30</option>
+                  <option>31</option>
+                </select>
+              </div>
+              <div class="select-wrap">
+                <select class="select-field" id="bdYear">
+                  <option value="">Year</option>
+                  <option>2010</option><option>2009</option><option>2008</option><option>2007</option>
+                  <option>2006</option><option>2005</option><option>2004</option><option>2003</option>
+                  <option>2002</option><option>2001</option><option>2000</option><option>1999</option>
+                  <option>1998</option><option>1997</option><option>1996</option><option>1995</option>
+                  <option>1994</option><option>1993</option><option>1992</option><option>1991</option>
+                  <option>1990</option><option>1985</option><option>1980</option><option>1975</option>
+                  <option>1970</option><option>1965</option><option>1960</option><option>1955</option>
+                  <option>1950</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <button
+            class="auth-submit"
+            style="margin-top: 20px"
+            onclick="doSaveProfile()"
+          >
+            Save
+          </button>
+        </div>
+
+        <!-- STEP 4: Account Created! -->
+        <div class="auth-step" id="authStep4">
+          <div class="confetti-dots" id="confettiDots"></div>
+          <div class="created-wrap">
+            <div class="created-mascot">😻</div>
+            <div class="created-title">Your account has been created!</div>
+            <div class="created-sub">
+              Welcome to JeyGames!<br />Start playing and collect your
+              favourites.
+            </div>
+            <button class="created-btn primary" onclick="closeAuth()">
+              ▶ Let's play!
+            </button>
+            <button
+              class="created-btn secondary"
+              onclick="window.location.href = 'profile.html'"
+            >
+              👤 Customize my profile
+            </button>
+            <div class="created-privacy">
+              Your profile is public and other users can send friend
+              requests.<br />
+              You can change this in your <a href="#">privacy preferences</a>.
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="friend-item">
-        <div
-          class="friend-avatar"
-          style="background: linear-gradient(135deg, #00f5d4, #0094a3)"
-        >
-          🏆
-        </div>
-        <div class="friend-info">
-          <div class="friend-name">noobmaster69</div>
-          <div class="friend-status">⚫ Offline • 2h ago</div>
-        </div>
-      </div>
-      <div class="friend-item">
-        <div
-          class="friend-avatar"
-          style="background: linear-gradient(135deg, #ef4444, #dc2626)"
-        >
-          🔥
-        </div>
-        <div class="friend-info">
-          <div class="friend-name">CrazyKing</div>
-          <div class="friend-status friend-online">🟢 Playing Mineblox</div>
-        </div>
-        <button class="invite-btn">Join</button>
-      </div>
-      <button class="add-friend-btn" onclick="openAuth()">+ Add Friend</button>
     </div>
 
     <!-- GAME MODAL -->
@@ -1698,46 +2711,23 @@
       </div>
     </div>
 
-    <!-- AUTH MODAL -->
-    <div id="authModal">
-      <div class="auth-box">
-        <button class="auth-close" onclick="closeAuth()">✕</button>
-        <div class="auth-title">Join JeyGames</div>
-        <div class="auth-sub">
-          Save favourites, track scores & play with friends
+    <!-- HOVER PREVIEW POPUP -->
+    <div id="gamePreviewPopup" class="game-preview-popup">
+      <div class="preview-frame-wrap" id="previewFrameWrap">
+        <div class="preview-loading" id="previewLoading">
+          <div class="preview-spinner"></div>
+          <span>Loading preview…</span>
         </div>
-        <div class="auth-tabs">
-          <div class="auth-tab active" onclick="switchTab('login')">Log In</div>
-          <div class="auth-tab" onclick="switchTab('signup')">Sign Up</div>
-        </div>
-        <div id="loginForm">
-          <div class="auth-field">
-            <label>Username</label
-            ><input type="text" id="loginUser" placeholder="Enter username" />
-          </div>
-          <div class="auth-field">
-            <label>Password</label
-            ><input type="password" placeholder="Enter password" />
-          </div>
-          <button class="auth-submit" onclick="doLogin()">Log In</button>
-        </div>
-        <div id="signupForm" style="display: none">
-          <div class="auth-field">
-            <label>Username</label
-            ><input type="text" id="signupUser" placeholder="Choose username" />
-          </div>
-          <div class="auth-field">
-            <label>Email</label
-            ><input type="email" placeholder="your@email.com" />
-          </div>
-          <div class="auth-field">
-            <label>Password</label
-            ><input type="password" placeholder="Create password" />
-          </div>
-          <button class="auth-submit" onclick="doSignup()">
-            Create Account
-          </button>
-        </div>
+        <iframe
+          id="previewFrame"
+          src=""
+          sandbox="allow-scripts allow-same-origin allow-forms"
+        ></iframe>
+      </div>
+      <div class="preview-info">
+        <div class="preview-title" id="previewTitle"></div>
+        <div class="preview-tags" id="previewTags"></div>
+        <div class="preview-play-hint">▶ Click to play full screen</div>
       </div>
     </div>
 
@@ -1756,84 +2746,75 @@
 
     <script src="games.js"></script>
     <script>
+      // ── TOAST ──
+      let toastTimer;
+      function showToast(msg, isError = false) {
+        const toast = document.getElementById("globalToast");
+        toast.textContent = msg;
+        toast.className = "toast" + (isError ? " error" : "");
+        clearTimeout(toastTimer);
+        requestAnimationFrame(() => {
+          toast.classList.add("show");
+          toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+        });
+      }
+
       // =============================================
-      // EXTRA GAMES — brainrot, roblox, trending
+      // EXTRA GAMES
       // =============================================
       const extraGames = [
-        // BRAINROT
         {
-          id: "escape-tsunami",
-          title: "Escape Tsunami For Brainrot",
-          src: "https://html5.gamemonetize.co/bar5fayxivsh0l9rgri3sysz8jd0445w/",
-          img: "https://img.gamemonetize.com/bar5fayxivsh0l9rgri3sysz8jd0445w/512x384.jpg",
-          tags: [
-            "Brainrot",
-            "Brainrot Italian",
-            "Brainrot sahuuur",
-            "brainrot",
-            "run",
-            "running",
-          ],
+          id: "skibidi-runner",
+          title: "Skibidi Runner",
+          src: "https://html5.gamemonetize.co/mh08lk78gtrvf2nfp2kbvqj9n1xl8voi/",
+          img: "https://img.gamemonetize.com/mh08lk78gtrvf2nfp2kbvqj9n1xl8voi/512x384.jpg",
+          tags: ["brainrot", "action", "popular", "new"],
         },
       ];
-
-      // Merge all games
       const allGames = [
         ...extraGames,
         ...(typeof games !== "undefined" ? games : []),
       ];
-
-      // Deduplicate
       const seen = new Set();
       const dedupedGames = allGames.filter((g) => {
         if (seen.has(g.id)) return false;
         seen.add(g.id);
         return true;
       });
+      window.dedupedGames = dedupedGames;
 
-      // =============================================
-      // STATE
-      // =============================================
-      let currentTag = "all";
-      let currentSearch = "";
-      let page = 1;
+      let currentTag = "all",
+        currentSearch = "",
+        page = 1;
       const PAGE_SIZE = 40;
       let sidebarCollapsed = false;
       let currentModalGame = null;
       let favourites = JSON.parse(localStorage.getItem("jg_favs") || "[]");
-      let loggedIn = localStorage.getItem("jg_user") || null;
 
-      // =============================================
-      // INIT
-      // =============================================
+      // ── INIT ──
       window.addEventListener("DOMContentLoaded", () => {
-        updateAuthUI();
         renderHome();
+        const urlTag = new URLSearchParams(location.search).get("tag");
+        if (urlTag) setTimeout(() => filterBy(urlTag, null), 100);
       });
 
-      // =============================================
-      // SIDEBAR
-      // =============================================
+      // ── SIDEBAR ──
       function toggleSidebar() {
         const sidebar = document.getElementById("sidebar");
         const main = document.getElementById("mainContent");
         const footer = document.getElementById("footer");
         sidebarCollapsed = !sidebarCollapsed;
-        sidebar.classList.toggle("collapsed", sidebarCollapsed);
-        main.classList.toggle("sidebar-collapsed", sidebarCollapsed);
-        footer.classList.toggle("sidebar-collapsed", sidebarCollapsed);
-
-        // mobile
         if (window.innerWidth <= 768) {
-          sidebar.classList.toggle("collapsed", false);
-          sidebar.classList.toggle("mobile-open", !sidebarCollapsed);
+          sidebar.classList.toggle("mobile-open", sidebarCollapsed);
           main.classList.toggle("sidebar-collapsed", false);
+        } else {
+          sidebar.classList.toggle("collapsed", sidebarCollapsed);
+          main.classList.toggle("sidebar-collapsed", sidebarCollapsed);
+          footer.classList.toggle("sidebar-collapsed", sidebarCollapsed);
         }
       }
 
-      // =============================================
-      // RENDER HOME SECTIONS
-      // =============================================
+      // ── HOME ──
       function renderHome() {
         const brainrot = dedupedGames
           .filter((g) => g.tags?.includes("brainrot"))
@@ -1844,24 +2825,19 @@
         const hot = dedupedGames
           .filter((g) => g.tags?.includes("popular"))
           .slice(0, 12);
-        const newGames = dedupedGames
+        const newG = dedupedGames
           .filter((g) => g.tags?.includes("new"))
           .slice(0, 12);
-
         renderGrid("brainrotGrid", brainrot, true);
         renderGrid("robloxGrid", roblox, true);
         renderGrid("hotGrid", hot);
-        renderGrid("newGrid", newGames);
+        renderGrid("newGrid", newG);
       }
-
-      function renderGrid(id, gamesList, showBadge = false) {
+      function renderGrid(id, list, badge = false) {
         const el = document.getElementById(id);
         if (!el) return;
-        el.innerHTML = gamesList
-          .map((g, i) => gameCardHTML(g, showBadge, i))
-          .join("");
+        el.innerHTML = list.map((g, i) => gameCardHTML(g, badge, i)).join("");
       }
-
       function gameCardHTML(g, showBadge = false, index = 0) {
         const isFav = favourites.includes(g.id);
         const badge = g.tags?.includes("new")
@@ -1876,29 +2852,24 @@
         const tagHTML = topTag
           ? `<span class="game-tag ${topTag}">${topTag}</span>`
           : "";
-        return `
-        <a class="game-card" href="#" onclick="openGame('${g.id}','${g.title.replace(/'/g, "\\'")}','${g.src}');return false;" style="animation-delay:${index * 0.04}s">
+        return `<a class="game-card" href="game.html?id=${g.id}" style="animation-delay:${index * 0.04}s"
+          data-game-id="${g.id}" data-game-src="${g.src}"
+          data-game-title="${g.title.replace(/"/g, "&quot;")}"
+          data-game-tags='${JSON.stringify(g.tags || [])}'>
           ${showBadge ? badge : ""}
           <button class="fav-btn ${isFav ? "active" : ""}" onclick="toggleFav(event,'${g.id}')" title="Favourite">❤️</button>
           <img class="game-thumb" src="${g.img}" alt="${g.title}" loading="lazy" decoding="async"
             onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 160 100%22><rect width=%22160%22 height=%22100%22 fill=%22%23161a25%22/><text x=%2280%22 y=%2256%22 text-anchor=%22middle%22 font-size=%2228%22>🎮</text></svg>'" />
-          <div class="game-info">
-            <div class="game-title">${g.title}</div>
-            <div class="game-tags">${tagHTML}</div>
-          </div>
+          <div class="game-info"><div class="game-title">${g.title}</div><div class="game-tags">${tagHTML}</div></div>
         </a>`;
       }
 
-      // =============================================
-      // FILTER / ALL GAMES VIEW
-      // =============================================
+      // ── FILTER ──
       function filterBy(tag, sidebarBtn) {
-        // Update sidebar active
         document
           .querySelectorAll(".sidebar-item")
           .forEach((b) => b.classList.remove("active"));
         if (sidebarBtn) sidebarBtn.classList.add("active");
-
         if (tag === "all") {
           showView("homeView");
           renderHome();
@@ -1908,15 +2879,13 @@
         currentTag = tag;
         currentSearch = "";
         document.getElementById("searchInput").value = "";
-
-        // Sync filter bar
-        document.querySelectorAll(".filter-btn").forEach((b) => {
-          b.classList.toggle("active", b.dataset.tag === tag);
-        });
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((b) => b.classList.toggle("active", b.dataset.tag === tag));
         const labels = {
           all: "All Games",
-          brainrot: "🧠 Brainrot Games",
-          roblox: "🟦 Roblox-Like Games",
+          brainrot: "🧠 Brainrot",
+          roblox: "🟦 Roblox-Like",
           popular: "🔥 Popular",
           new: "✨ New Games",
           best: "👑 Best",
@@ -1935,7 +2904,6 @@
           labels[tag] || "Games";
         renderMainGrid(true);
       }
-
       function setFilter(tag, btn) {
         document
           .querySelectorAll(".filter-btn")
@@ -1962,14 +2930,12 @@
           labels[tag] || "Games";
         renderMainGrid(true);
       }
-
       function renderMainGrid(reset = false) {
         const grid = document.getElementById("gameGrid");
         if (reset) {
           grid.innerHTML = "";
           page = 1;
         }
-
         const filtered = dedupedGames.filter((g) => {
           const matchTag =
             currentTag === "all" ||
@@ -1979,22 +2945,18 @@
             !currentSearch || g.title.toLowerCase().includes(currentSearch);
           return matchTag && matchSearch;
         });
-
         document.getElementById("countBadge").textContent =
           `${filtered.length} games`;
-
-        if (filtered.length === 0) {
+        if (!filtered.length) {
           grid.innerHTML = `<div class="no-results"><div class="icon">🔍</div><p>No games found for "${currentSearch}"</p></div>`;
           document.getElementById("loadMoreBtn").style.display = "none";
           return;
         }
-
         const end = page * PAGE_SIZE;
         grid.innerHTML = filtered
           .slice(0, end)
           .map((g, i) => gameCardHTML(g, true, i))
           .join("");
-
         const btn = document.getElementById("loadMoreBtn");
         if (end >= filtered.length) {
           btn.style.display = "none";
@@ -2004,16 +2966,13 @@
         }
       }
 
-      // =============================================
-      // VIEWS
-      // =============================================
+      // ── VIEWS ──
       function showView(id) {
         ["homeView", "allGamesView", "favsView"].forEach((v) => {
           document.getElementById(v).style.display =
             v === id ? "block" : "none";
         });
       }
-
       function showFavourites() {
         showView("favsView");
         document
@@ -2022,7 +2981,7 @@
         const favGames = dedupedGames.filter((g) => favourites.includes(g.id));
         const grid = document.getElementById("favsGrid");
         const empty = document.getElementById("favsEmpty");
-        if (favGames.length === 0) {
+        if (!favGames.length) {
           grid.innerHTML = "";
           empty.style.display = "block";
         } else {
@@ -2033,9 +2992,7 @@
         }
       }
 
-      // =============================================
-      // FAVOURITES
-      // =============================================
+      // ── FAVOURITES ──
       function toggleFav(e, id) {
         e.preventDefault();
         e.stopPropagation();
@@ -2043,19 +3000,15 @@
         if (idx === -1) favourites.push(id);
         else favourites.splice(idx, 1);
         localStorage.setItem("jg_favs", JSON.stringify(favourites));
-        // Update all fav buttons for this game
-        document.querySelectorAll(`.fav-btn`).forEach((btn) => {
+        document.querySelectorAll(".fav-btn").forEach((btn) => {
           if (
             btn.closest(".game-card")?.href?.includes(id) ||
             btn.onclick?.toString().includes(`'${id}'`)
-          ) {
+          )
             btn.classList.toggle("active", favourites.includes(id));
-          }
         });
-        // Update modal fav btn if open
         if (currentModalGame === id) updateModalFavBtn();
       }
-
       function toggleModalFav() {
         if (!currentModalGame) return;
         const idx = favourites.indexOf(currentModalGame);
@@ -2064,7 +3017,6 @@
         localStorage.setItem("jg_favs", JSON.stringify(favourites));
         updateModalFavBtn();
       }
-
       function updateModalFavBtn() {
         const btn = document.getElementById("modalFavBtn");
         const isFav = favourites.includes(currentModalGame);
@@ -2072,9 +3024,7 @@
         btn.textContent = isFav ? "❤️ Saved!" : "❤️ Favourite";
       }
 
-      // =============================================
-      // GAME MODAL
-      // =============================================
+      // ── GAME MODAL ──
       function openGame(id, title, src) {
         currentModalGame = id;
         document.getElementById("modalTitle").textContent = title;
@@ -2083,96 +3033,114 @@
         document.body.style.overflow = "hidden";
         updateModalFavBtn();
       }
-
       function closeModal() {
         document.getElementById("modal").classList.remove("open");
         document.getElementById("gameFrame").src = "";
         document.body.style.overflow = "";
         currentModalGame = null;
       }
-
       document.getElementById("modal").addEventListener("click", (e) => {
         if (e.target === document.getElementById("modal")) closeModal();
       });
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-          closeModal();
-          closeAuth();
-        }
-      });
 
-      // =============================================
-      // FRIENDS PANEL
-      // =============================================
+      // ── FRIENDS ──
       function toggleFriends() {
         document.getElementById("friendsPanel").classList.toggle("open");
       }
 
-      // =============================================
-      // AUTH
-      // =============================================
-      function openAuth() {
-        document.getElementById("authModal").classList.add("open");
+      // ── USER DROPDOWN ──
+      function toggleDropdown() {
+        document.getElementById("userDropdown").classList.toggle("open");
       }
-      function closeAuth() {
-        document.getElementById("authModal").classList.remove("open");
-      }
-
-      document.getElementById("authModal").addEventListener("click", (e) => {
-        if (e.target === document.getElementById("authModal")) closeAuth();
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".user-menu-wrap"))
+          document.getElementById("userDropdown")?.classList.remove("open");
       });
 
-      function switchTab(tab) {
+      // ── AUTH OVERLAY (MULTI-STEP) ──
+      let currentStep = 1;
+
+      function openAuth() {
+        document.getElementById("authOverlay").classList.add("open");
+        document.body.style.overflow = "hidden";
+        goToStep(1);
+      }
+      function closeAuth() {
+        document.getElementById("authOverlay").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function goToStep(n) {
+        currentStep = n;
         document
-          .querySelectorAll(".auth-tab")
-          .forEach((t, i) =>
-            t.classList.toggle(
-              "active",
-              (i === 0 && tab === "login") || (i === 1 && tab === "signup"),
-            ),
-          );
+          .querySelectorAll(".auth-step")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById("authStep" + n).classList.add("active");
+        if (n === 4) spawnConfetti();
+      }
+      window.goToStep = goToStep;
+
+      function switchAuthTab(tab) {
+        document
+          .getElementById("tabLogin")
+          .classList.toggle("active", tab === "login");
+        document
+          .getElementById("tabSignup")
+          .classList.toggle("active", tab === "signup");
         document.getElementById("loginForm").style.display =
           tab === "login" ? "block" : "none";
         document.getElementById("signupForm").style.display =
           tab === "signup" ? "block" : "none";
+        showErrEl("loginError", "");
+        showErrEl("signupError", "");
       }
 
-      function doLogin() {
-        const user =
-          document.getElementById("loginUser").value.trim() || "Player";
-        loggedIn = user;
-        localStorage.setItem("jg_user", user);
-        updateAuthUI();
-        closeAuth();
+      function showErrEl(id, msg) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = msg;
+        el.style.display = msg ? "block" : "none";
       }
 
-      function doSignup() {
-        const user =
-          document.getElementById("signupUser").value.trim() || "NewPlayer";
-        loggedIn = user;
-        localStorage.setItem("jg_user", user);
-        updateAuthUI();
-        closeAuth();
+      // Username validation
+      function checkUsername() {
+        const val = document.getElementById("usernameInput").value;
+        const ruleLength = document.getElementById("ruleLength");
+        const ruleChars = document.getElementById("ruleChars");
+        const ok1 = val.length >= 6 && val.length <= 20;
+        const ok2 = /^[a-zA-Z0-9\-\.]+$/.test(val);
+        ruleLength.className = "rule " + (ok1 ? "ok" : "fail");
+        ruleLength.querySelector(".rule-icon").textContent = ok1 ? "✓" : "✕";
+        ruleChars.className = "rule " + (ok2 ? "ok" : "fail");
+        ruleChars.querySelector(".rule-icon").textContent = ok2 ? "✓" : "✕";
+        document.getElementById("usernameSubmitBtn").disabled = !(ok1 && ok2);
+        showErrEl("usernameError", "");
       }
 
-      function updateAuthUI() {
-        const loginBtn = document.getElementById("loginBtn");
-        const avatar = document.getElementById("userAvatar");
-        if (loggedIn) {
-          loginBtn.style.display = "none";
-          avatar.style.display = "flex";
-          document.getElementById("avatarName").textContent = loggedIn;
-          document.getElementById("avatarCircle").textContent =
-            loggedIn[0].toUpperCase();
-        } else {
-          loginBtn.style.display = "block";
-          avatar.style.display = "none";
+      // Confetti
+      function spawnConfetti() {
+        const wrap = document.getElementById("confettiDots");
+        wrap.innerHTML = "";
+        const colors = [
+          "#ff6b35",
+          "#00f5d4",
+          "#a855f7",
+          "#fbbf24",
+          "#ef4444",
+          "#60a5fa",
+        ];
+        for (let i = 0; i < 24; i++) {
+          const dot = document.createElement("div");
+          dot.className = "confetti-dot";
+          dot.style.left = Math.random() * 100 + "%";
+          dot.style.background =
+            colors[Math.floor(Math.random() * colors.length)];
+          dot.style.animationDelay = Math.random() * 0.8 + "s";
+          dot.style.animationDuration = 1 + Math.random() + "s";
+          wrap.appendChild(dot);
         }
       }
 
-      // =============================================
-      // SEARCH
-      // =============================================
+      // ── SEARCH ──
       let searchTimeout;
       document.getElementById("searchInput").addEventListener("input", (e) => {
         clearTimeout(searchTimeout);
@@ -2190,11 +3158,528 @@
           }
         }, 200);
       });
-
       document.getElementById("loadMoreBtn").addEventListener("click", () => {
         page++;
         renderMainGrid();
       });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeModal();
+          closeAuth();
+        }
+      });
+
+      // ── HOVER PREVIEW ──
+      const popup = document.getElementById("gamePreviewPopup");
+      const pFrame = document.getElementById("previewFrame");
+      const pLoading = document.getElementById("previewLoading");
+      const pTitle = document.getElementById("previewTitle");
+      const pTags = document.getElementById("previewTags");
+      let hoverTimer = null,
+        hideTimer = null,
+        activeCard = null;
+      const HOVER_DELAY = 600;
+      function positionPopup(card) {
+        const rect = card.getBoundingClientRect();
+        const popW = 340,
+          popH = 260,
+          margin = 12;
+        let left = rect.right + margin,
+          top = rect.top;
+        if (left + popW > window.innerWidth - margin)
+          left = rect.left - popW - margin;
+        if (top + popH > window.innerHeight - margin)
+          top = window.innerHeight - popH - margin;
+        if (top < margin) top = margin;
+        popup.style.left = left + "px";
+        popup.style.top = top + "px";
+      }
+      function showPreview(card) {
+        const gameId = card.dataset.gameId,
+          gameSrc = card.dataset.gameSrc,
+          gameTitle = card.dataset.gameTitle,
+          gameTags = JSON.parse(card.dataset.gameTags || "[]");
+        pTitle.textContent = gameTitle;
+        pTags.innerHTML = gameTags
+          .slice(0, 5)
+          .map((t) => `<span class="preview-tag">${t}</span>`)
+          .join("");
+        if (pFrame.dataset.loadedId !== gameId) {
+          pFrame.dataset.loadedId = gameId;
+          pLoading.style.display = "flex";
+          pFrame.style.opacity = "0";
+          pFrame.src = gameSrc;
+          pFrame.onload = () => {
+            pLoading.style.display = "none";
+            pFrame.style.opacity = "1";
+          };
+        } else {
+          pLoading.style.display = "none";
+          pFrame.style.opacity = "1";
+        }
+        positionPopup(card);
+        popup.style.display = "block";
+        popup.offsetHeight;
+        popup.classList.add("visible");
+      }
+      function hidePreview() {
+        popup.classList.remove("visible");
+        setTimeout(() => {
+          if (!popup.classList.contains("visible")) {
+            popup.style.display = "none";
+            pFrame.src = "";
+            pFrame.dataset.loadedId = "";
+          }
+        }, 200);
+      }
+      document.addEventListener("mouseover", (e) => {
+        const card = e.target.closest(".game-card");
+        if (!card || !card.dataset.gameId) return;
+        if (card === activeCard) return;
+        clearTimeout(hoverTimer);
+        clearTimeout(hideTimer);
+        activeCard = card;
+        hoverTimer = setTimeout(() => showPreview(card), HOVER_DELAY);
+      });
+      document.addEventListener("mouseout", (e) => {
+        const card = e.target.closest(".game-card");
+        if (!card) return;
+        if (popup.contains(e.relatedTarget)) return;
+        clearTimeout(hoverTimer);
+        activeCard = null;
+        hideTimer = setTimeout(hidePreview, 200);
+      });
+      popup.addEventListener("mouseenter", () => clearTimeout(hideTimer));
+      popup.addEventListener("mouseleave", () => {
+        hideTimer = setTimeout(hidePreview, 200);
+        activeCard = null;
+      });
+    </script>
+
+    <!-- ── FIREBASE ── -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        signInWithPopup,
+        GoogleAuthProvider,
+        signOut,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+        get,
+        update,
+        onValue,
+        off,
+        remove,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+      const app = initializeApp({
+        apiKey: "AIzaSyBC-Enomoc8YXxe9VV5oz8cAYbaTXFdcCc",
+        authDomain: "unblocked-games-chat.firebaseapp.com",
+        databaseURL: "https://unblocked-games-chat-default-rtdb.firebaseio.com",
+        projectId: "unblocked-games-chat",
+        storageBucket: "unblocked-games-chat.firebasestorage.app",
+        messagingSenderId: "575285025084",
+        appId: "1:575285025084:web:ecaa60e7b4c0a04a386639",
+      });
+      const auth = getAuth(app);
+      const db = getDatabase(app);
+      const googleProvider = new GoogleAuthProvider();
+      let currentUser = null;
+      let presenceInterval = null;
+
+      function esc(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+      function showErrEl(id, msg) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = msg;
+        el.style.display = msg ? "block" : "none";
+      }
+
+      function setLoggedInUI(username, email) {
+        const initial = username[0].toUpperCase();
+        document.getElementById("loginBtn").style.display = "none";
+        document.getElementById("userMenuWrap").style.display = "flex";
+        document.getElementById("navAvatarCircle").textContent = initial;
+        document.getElementById("navAvatarName").textContent = username;
+        document.getElementById("dropdownAvatarBig").textContent = initial;
+        document.getElementById("dropdownUsername").textContent = username;
+        document.getElementById("dropdownEmail").textContent = email || "";
+        document.getElementById("friendsLoginPrompt").style.display = "none";
+        document.getElementById("friendsLoggedIn").style.display = "block";
+        document.getElementById("panelUsername").textContent = username;
+        document.getElementById("panelAvatar").textContent = initial;
+      }
+
+      // ── GOOGLE SIGN-IN ──
+      window.doGoogleSignIn = async function () {
+        try {
+          const result = await signInWithPopup(auth, googleProvider);
+          const user = result.user;
+          const snap = await get(ref(db, "users/" + user.uid));
+          if (!snap.exists()) {
+            // New Google user — create profile automatically
+            const displayName = user.displayName || "Player";
+            let baseUsername = displayName.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+            if (baseUsername.length < 6) baseUsername = baseUsername + "player";
+            if (baseUsername.length > 20) baseUsername = baseUsername.slice(0, 20);
+            let username = baseUsername;
+            let attempts = 0;
+            while (attempts < 5) {
+              const uSnap = await get(ref(db, "usernames/" + username));
+              if (!uSnap.exists()) break;
+              username = baseUsername.slice(0, 16) + Math.floor(Math.random() * 9999);
+              attempts++;
+            }
+            await set(ref(db, "users/" + user.uid), {
+              username,
+              usernameLower: username.toLowerCase(),
+              email: user.email || "",
+              createdAt: Date.now(),
+              favourites: {},
+              friends: {},
+              provider: "google",
+            });
+            await set(ref(db, "usernames/" + username.toLowerCase()), user.uid);
+            window.goToStep(4);
+          } else {
+            window.closeAuth();
+          }
+          showToast("Signed in with Google!");
+        } catch (e) {
+          if (e.code !== "auth/popup-closed-by-user") {
+            showToast("Google sign-in failed: " + (e.message || "Unknown error"), true);
+          }
+        }
+      };
+
+      // ── STEP 1 SIGNUP ──
+      window.doSignupStep1 = async function () {
+        const email = document.getElementById("signupEmail").value.trim();
+        const pass = document.getElementById("signupPass").value;
+        showErrEl("signupError", "");
+        if (!email) return showErrEl("signupError", "Please enter your email.");
+        if (pass.length < 6)
+          return showErrEl("signupError", "Password must be 6+ characters.");
+        const btn = document.getElementById("signupSubmitBtn");
+        btn.disabled = true;
+        btn.textContent = "Creating account…";
+        try {
+          const cred = await createUserWithEmailAndPassword(auth, email, pass);
+          window._pendingUid = cred.user.uid;
+          window._pendingEmail = email;
+          btn.disabled = false;
+          btn.textContent = "Continue";
+          window.goToStep(2);
+        } catch (e) {
+          btn.disabled = false;
+          btn.textContent = "Continue";
+          let msg = e.message || "Sign up failed.";
+          if (e.code === "auth/email-already-in-use") msg = "This email is already registered. Try logging in.";
+          if (e.code === "auth/invalid-email") msg = "Please enter a valid email address.";
+          if (e.code === "auth/weak-password") msg = "Password is too weak. Use 6+ characters.";
+          showErrEl("signupError", msg.replace("Firebase:", "").replace(/\(.*\)/, "").trim());
+        }
+      };
+
+      // ── STEP 2: set username ──
+      window.doSetUsername = async function () {
+        const username = document.getElementById("usernameInput").value.trim();
+        showErrEl("usernameError", "");
+        if (username.length < 6 || username.length > 20)
+          return showErrEl("usernameError", "Username must be 6-20 characters.");
+        if (!/^[a-zA-Z0-9\-\.]+$/.test(username))
+          return showErrEl("usernameError", "Only letters, numbers, - and . allowed.");
+        const btn = document.getElementById("usernameSubmitBtn");
+        btn.disabled = true;
+        btn.textContent = "Checking…";
+        const snap = await get(ref(db, "usernames/" + username.toLowerCase()));
+        if (snap.exists()) {
+          btn.disabled = false;
+          btn.textContent = "Continue";
+          return showErrEl("usernameError", "Username already taken, try another.");
+        }
+        window._pendingUsername = username;
+        btn.disabled = false;
+        btn.textContent = "Continue";
+        window.goToStep(3);
+      };
+
+      // ── STEP 3: save profile ──
+      window.doSaveProfile = async function () {
+        const uid = window._pendingUid;
+        const username = window._pendingUsername;
+        const email = window._pendingEmail;
+        if (!uid || !username) {
+          return showToast("Session expired. Please try signing up again.", true);
+        }
+        const btn = document.querySelector("#authStep3 .auth-submit");
+        btn.disabled = true;
+        btn.textContent = "Saving…";
+        try {
+          const profileData = {
+            username,
+            usernameLower: username.toLowerCase(),
+            email: email || "",
+            createdAt: Date.now(),
+            favourites: {},
+            friends: {},
+            country: document.getElementById("profileCountry").value || "",
+            gender: document.getElementById("profileGender").value || "",
+          };
+          await set(ref(db, "users/" + uid), profileData);
+          await set(ref(db, "usernames/" + username.toLowerCase()), uid);
+          setLoggedInUI(username, email);
+          btn.disabled = false;
+          btn.textContent = "Save";
+          window.goToStep(4);
+        } catch (e) {
+          btn.disabled = false;
+          btn.textContent = "Save";
+          console.error("Profile save error:", e);
+          let msg = "Couldn't save profile.";
+          if (e.code === "PERMISSION_DENIED" || (e.message && e.message.includes("PERMISSION_DENIED"))) {
+            msg = "Database permission denied. Please update your Firebase Realtime Database rules to allow authenticated users to write.";
+          } else {
+            msg = e.message || msg;
+          }
+          showToast("Error: " + msg, true);
+        }
+      };
+
+      // ── LOGIN ──
+      window.doLogin = async function () {
+        const email = document.getElementById("loginEmail").value.trim();
+        const pass = document.getElementById("loginPass").value;
+        showErrEl("loginError", "");
+        if (!email || !pass)
+          return showErrEl("loginError", "Please fill in all fields.");
+        const btn = document.getElementById("loginSubmitBtn");
+        btn.disabled = true;
+        btn.textContent = "Logging in…";
+        try {
+          await signInWithEmailAndPassword(auth, email, pass);
+          btn.disabled = false;
+          btn.textContent = "Log In";
+          window.closeAuth();
+          showToast("Welcome back!");
+        } catch (e) {
+          btn.disabled = false;
+          btn.textContent = "Log In";
+          let msg = "Invalid email or password.";
+          if (e.code === "auth/too-many-requests") msg = "Too many attempts. Please try again later.";
+          showErrEl("loginError", msg);
+        }
+      };
+
+      // ── LOGOUT ──
+      window.doLogout = async function () {
+        if (currentUser)
+          await update(ref(db, "presence/" + currentUser.uid), {
+            online: false,
+          }).catch(() => {});
+        clearInterval(presenceInterval);
+        await signOut(auth);
+        document.getElementById("loginBtn").style.display = "block";
+        document.getElementById("userMenuWrap").style.display = "none";
+        document.getElementById("friendsLoginPrompt").style.display = "block";
+        document.getElementById("friendsLoggedIn").style.display = "none";
+        document.getElementById("userDropdown")?.classList.remove("open");
+        showToast("Logged out.");
+      };
+
+      // expose closeAuth to module scope
+      window.closeAuth = function () {
+        document.getElementById("authOverlay").classList.remove("open");
+        document.body.style.overflow = "";
+      };
+
+      // ── AUTH STATE ──
+      onAuthStateChanged(auth, async (user) => {
+        currentUser = user;
+        if (user) {
+          const snap = await get(ref(db, "users/" + user.uid));
+          const profile = snap.val() || {};
+          const username = profile.username || user.displayName || user.email;
+          setLoggedInUI(username, user.email);
+
+          const localFavs = JSON.parse(localStorage.getItem("jg_favs") || "[]");
+          const fbFavs = profile.favourites ? Object.keys(profile.favourites) : [];
+          const merged = [...new Set([...localFavs, ...fbFavs])];
+          window.favourites = merged;
+          if (merged.length) {
+            const favObj = {};
+            merged.forEach((id) => (favObj[id] = true));
+            update(ref(db, "users/" + user.uid + "/favourites"), favObj).catch(() => {});
+            localStorage.setItem("jg_favs", JSON.stringify(merged));
+          }
+
+          await update(ref(db, "presence/" + user.uid), {
+            online: true,
+            lastSeen: Date.now(),
+            uid: user.uid,
+          }).catch(() => {});
+          clearInterval(presenceInterval);
+          presenceInterval = setInterval(
+            () =>
+              update(ref(db, "presence/" + user.uid), {
+                online: true,
+                lastSeen: Date.now(),
+              }).catch(() => {}),
+            30000,
+          );
+
+          listenForRequests(user.uid);
+          listenForFriends(user.uid);
+        }
+      });
+
+      // Sync fav to Firebase
+      const _origToggleFav = window.toggleFav;
+      window.toggleFav = function (e, id) {
+        if (_origToggleFav) _origToggleFav(e, id);
+        if (currentUser) {
+          const favs = window.favourites || [];
+          const isFav = favs.includes(id);
+          if (isFav)
+            set(ref(db, "users/" + currentUser.uid + "/favourites/" + id), true).catch(() => {});
+          else
+            remove(ref(db, "users/" + currentUser.uid + "/favourites/" + id)).catch(() => {});
+        }
+      };
+
+      // ── FRIEND REQUESTS ──
+      window.sendFriendRequest = async function () {
+        const input = document.getElementById("friendSearchInput");
+        const targetUsername = input.value.trim();
+        const msgEl = document.getElementById("friendAddMsg");
+        msgEl.style.color = "var(--neon)";
+        msgEl.textContent = "";
+        if (!currentUser) return (msgEl.textContent = "Log in first!");
+        if (!targetUsername) return;
+        const snap = await get(ref(db, "usernames/" + targetUsername.toLowerCase()));
+        if (!snap.exists()) {
+          msgEl.style.color = "#ef4444";
+          return (msgEl.textContent = "User not found.");
+        }
+        const targetUid = snap.val();
+        if (targetUid === currentUser.uid) {
+          msgEl.style.color = "#ef4444";
+          return (msgEl.textContent = "That's you! 😅");
+        }
+        const alreadySnap = await get(ref(db, "users/" + currentUser.uid + "/friends/" + targetUid));
+        if (alreadySnap.exists()) {
+          msgEl.style.color = "#ef4444";
+          return (msgEl.textContent = "Already friends!");
+        }
+        const mySnap = await get(ref(db, "users/" + currentUser.uid));
+        const myProfile = mySnap.val() || {};
+        await set(ref(db, "friendRequests/" + targetUid + "/" + currentUser.uid), {
+          from: currentUser.uid,
+          username: myProfile.username || "Unknown",
+          sentAt: Date.now(),
+        });
+        input.value = "";
+        msgEl.textContent = "Friend request sent to " + targetUsername + "!";
+        setTimeout(() => (msgEl.textContent = ""), 3000);
+      };
+
+      let reqRef = null;
+      function listenForRequests(uid) {
+        if (reqRef) off(reqRef);
+        reqRef = ref(db, "friendRequests/" + uid);
+        onValue(reqRef, (snap) => {
+          const requests = snap.val() || {};
+          const keys = Object.keys(requests);
+          const section = document.getElementById("pendingSection");
+          const list = document.getElementById("pendingList");
+          if (!keys.length) {
+            section.style.display = "none";
+            return;
+          }
+          section.style.display = "block";
+          list.innerHTML = keys
+            .map((fromUid) => {
+              const r = requests[fromUid];
+              return `<div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;margin-bottom:6px">
+              <div style="flex:1;font-size:12px;font-weight:700">${esc(r.username)}</div>
+              <button onclick="acceptRequest('${fromUid}','${esc(r.username)}')" style="background:var(--neon);border:none;border-radius:6px;color:#000;font-size:11px;font-weight:800;padding:4px 10px;cursor:pointer;font-family:Outfit,sans-serif">✓ Accept</button>
+              <button onclick="declineRequest('${fromUid}')" style="background:var(--bg4);border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-size:11px;font-weight:700;padding:4px 8px;cursor:pointer;font-family:Outfit,sans-serif">✗</button>
+            </div>`;
+            })
+            .join("");
+        });
+      }
+      window.acceptRequest = async function (fromUid, fromUsername) {
+        if (!currentUser) return;
+        const mySnap = await get(ref(db, "users/" + currentUser.uid));
+        const myProfile = mySnap.val() || {};
+        await set(ref(db, "users/" + currentUser.uid + "/friends/" + fromUid), {
+          username: fromUsername,
+          addedAt: Date.now(),
+        });
+        await set(ref(db, "users/" + fromUid + "/friends/" + currentUser.uid), {
+          username: myProfile.username || "Unknown",
+          addedAt: Date.now(),
+        });
+        await remove(ref(db, "friendRequests/" + currentUser.uid + "/" + fromUid));
+      };
+      window.declineRequest = async function (fromUid) {
+        if (!currentUser) return;
+        await remove(ref(db, "friendRequests/" + currentUser.uid + "/" + fromUid));
+      };
+
+      let friendsRef = null;
+      function listenForFriends(uid) {
+        if (friendsRef) off(friendsRef);
+        friendsRef = ref(db, "users/" + uid + "/friends");
+        onValue(friendsRef, async (snap) => {
+          const friends = snap.val() || {};
+          const friendIds = Object.keys(friends);
+          const listEl = document.getElementById("friendsList");
+          if (!friendIds.length) {
+            listEl.innerHTML = `<div style="color:var(--text3);font-size:12px;padding:12px 0;text-align:center">No friends yet — add some above!</div>`;
+            return;
+          }
+          const presSnap = await get(ref(db, "presence"));
+          const presence = presSnap.val() || {};
+          friendIds.sort((a, b) => {
+            const ao = presence[a]?.online && Date.now() - presence[a]?.lastSeen < 90000;
+            const bo = presence[b]?.online && Date.now() - presence[b]?.lastSeen < 90000;
+            return (bo ? 1 : 0) - (ao ? 1 : 0);
+          });
+          listEl.innerHTML = friendIds
+            .map((fid) => {
+              const f = friends[fid];
+              const p = presence[fid];
+              const isOnline = p?.online && Date.now() - p.lastSeen < 90000;
+              const gameId = p?.currentGame;
+              const currentG = gameId
+                ? (window.dedupedGames || []).find((g) => g.id === gameId)
+                : null;
+              return `<div class="friend-item">
+              <div class="friend-avatar" style="background:linear-gradient(135deg,var(--jay),var(--purple));color:#fff">${esc(f.username?.[0]?.toUpperCase() || "?")}</div>
+              <div class="friend-info">
+                <div class="friend-name">${esc(f.username)}</div>
+                ${isOnline ? `<div class="friend-status friend-online">${currentG ? "🟢 Playing " + esc(currentG.title) : "🟢 Online"}</div>` : `<div class="friend-status">⚫ Offline</div>`}
+              </div>
+              ${isOnline && currentG ? `<a href="game.html?id=${currentG.id}" class="invite-btn" style="text-decoration:none">Join</a>` : ""}
+            </div>`;
+            })
+            .join("");
+        });
+      }
     </script>
   </body>
 </html>
