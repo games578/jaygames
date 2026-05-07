@@ -1,0 +1,820 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1191415751531949"
+      crossorigin="anonymous"
+    ></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JeyGames — Play</title>
+    <link rel="icon" href="Jeygameslogo.png" sizes="any" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #08090d;
+        --bg2: #0f1118;
+        --bg3: #161a25;
+        --bg4: #1d2235;
+        --border: rgba(255, 255, 255, 0.07);
+        --border2: rgba(255, 255, 255, 0.13);
+        --text: #eef0ff;
+        --text2: rgba(180, 190, 255, 0.55);
+        --text3: rgba(180, 190, 255, 0.3);
+        --jay: #ff6b35;
+        --jay2: rgba(255, 107, 53, 0.15);
+        --jay3: #ff8c5a;
+        --neon: #00f5d4;
+        --neon2: rgba(0, 245, 212, 0.12);
+        --purple: #a855f7;
+        --card-bg: #111520;
+        --nav-bg: rgba(8, 9, 13, 0.95);
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--nav-bg);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 18px;
+        height: 52px;
+      }
+      .nav-logo {
+        font-size: 17px;
+        font-weight: 900;
+        color: var(--jay);
+        text-decoration: none;
+        letter-spacing: -0.02em;
+        flex-shrink: 0;
+      }
+      .nav-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        border-radius: 8px;
+        background: var(--bg4);
+        border: 1px solid var(--border2);
+        color: var(--text);
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: "Outfit", sans-serif;
+        transition: all 0.2s;
+        text-decoration: none;
+      }
+      .nav-back:hover {
+        border-color: var(--jay);
+        color: var(--jay);
+      }
+      .nav-breadcrumb {
+        font-size: 12px;
+        color: var(--text2);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .nav-breadcrumb a {
+        color: var(--text2);
+        text-decoration: none;
+      }
+      .nav-breadcrumb a:hover {
+        color: var(--text);
+      }
+      .nav-breadcrumb span {
+        color: var(--text3);
+      }
+      .nav-spacer {
+        flex: 1;
+      }
+      .nav-fav-btn,
+      .nav-fs-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 13px;
+        border-radius: 8px;
+        background: var(--bg4);
+        border: 1px solid var(--border2);
+        color: var(--text);
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: "Outfit", sans-serif;
+        transition: all 0.2s;
+      }
+      .nav-fav-btn:hover,
+      .nav-fs-btn:hover {
+        border-color: var(--jay);
+        color: var(--jay);
+      }
+      .nav-fav-btn.active {
+        border-color: #ef4444;
+        color: #ef4444;
+      }
+
+      /* ── MAIN LAYOUT ── */
+      .page-wrap {
+        display: flex;
+        gap: 0;
+        min-height: calc(100vh - 52px);
+      }
+
+      /* ── LEFT: game + info ── */
+      .game-col {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* iframe */
+      .frame-wrap {
+        position: relative;
+        background: #000;
+        width: 100%;
+        aspect-ratio: 16/9;
+        max-height: 78vh;
+        flex-shrink: 0;
+      }
+      #gameFrame {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+        background: #000;
+      }
+      .frame-overlay-btns {
+        position: absolute;
+        bottom: 10px;
+        right: 12px;
+        display: flex;
+        gap: 8px;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .frame-wrap:hover .frame-overlay-btns {
+        opacity: 1;
+      }
+      .overlay-btn {
+        padding: 5px 12px;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: "Outfit", sans-serif;
+        backdrop-filter: blur(4px);
+      }
+      .overlay-btn:hover {
+        background: var(--jay);
+        border-color: var(--jay);
+        color: #000;
+      }
+
+      /* Game info bar (below iframe) */
+      .game-info-bar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 20px;
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+      }
+      .gi-thumb {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 2px solid var(--border2);
+      }
+      .gi-meta {
+        flex: 1;
+        min-width: 0;
+      }
+      .gi-title {
+        font-size: 19px;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 6px;
+      }
+      .gi-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .gi-tag {
+        padding: 3px 9px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 700;
+        background: var(--bg4);
+        border: 1px solid var(--border2);
+        color: var(--text2);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.15s;
+      }
+      .gi-tag:hover {
+        border-color: var(--jay);
+        color: var(--jay);
+      }
+      .gi-actions {
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .gi-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        border: 1px solid var(--border2);
+        background: var(--bg4);
+        color: var(--text);
+        cursor: pointer;
+        font-family: "Outfit", sans-serif;
+        transition: all 0.2s;
+      }
+      .gi-btn:hover {
+        border-color: var(--jay);
+        color: var(--jay);
+      }
+      .gi-btn.primary {
+        background: var(--jay);
+        color: #000;
+        border-color: var(--jay);
+        font-weight: 800;
+      }
+      .gi-btn.primary:hover {
+        opacity: 0.85;
+        color: #000;
+      }
+      .gi-btn.fav-active {
+        border-color: #ef4444;
+        color: #ef4444;
+      }
+
+      /* Tabs (Play / How to play) */
+      .game-tabs {
+        display: flex;
+        gap: 0;
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+        padding: 0 20px;
+      }
+      .game-tab {
+        padding: 11px 16px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text2);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .game-tab:hover {
+        color: var(--text);
+      }
+      .game-tab.active {
+        color: var(--jay);
+        border-bottom-color: var(--jay);
+      }
+
+      /* Tab content */
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+
+      /* Description */
+      .game-description {
+        padding: 18px 20px;
+        background: var(--bg2);
+        color: var(--text2);
+        font-size: 13.5px;
+        line-height: 1.75;
+      }
+      .game-description p {
+        margin-bottom: 10px;
+      }
+      .game-description p:last-child {
+        margin-bottom: 0;
+      }
+      .game-description strong {
+        color: var(--text);
+      }
+
+      /* How to play */
+      .how-to-play {
+        padding: 18px 20px;
+        background: var(--bg2);
+        color: var(--text2);
+        font-size: 13.5px;
+        line-height: 1.75;
+      }
+      .htp-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 10px;
+      }
+      .htp-key {
+        background: var(--bg4);
+        border: 1px solid var(--border2);
+        border-radius: 6px;
+        padding: 2px 8px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text);
+        font-family: var(--mono, monospace);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      /* ── RIGHT SIDEBAR ── */
+      .sidebar {
+        width: 250px;
+        flex-shrink: 0;
+        border-left: 1px solid var(--border);
+        background: var(--bg2);
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        max-height: calc(100vh - 52px);
+        position: sticky;
+        top: 52px;
+      }
+      .sidebar-section {
+        padding: 14px 12px 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      .sidebar-label {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--text3);
+        margin-bottom: 10px;
+        padding: 0 2px;
+      }
+      .next-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 6px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.15s;
+        text-decoration: none;
+        color: var(--text);
+        margin-bottom: 2px;
+      }
+      .next-card:hover {
+        background: var(--bg4);
+      }
+      .next-thumb {
+        width: 56px;
+        height: 42px;
+        border-radius: 8px;
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 1px solid var(--border2);
+        background: var(--bg4);
+      }
+      .next-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .next-title {
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 2px;
+      }
+      .next-sub {
+        font-size: 10px;
+        color: var(--text2);
+      }
+
+      /* Ad slot */
+      .sidebar-ad {
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 90px;
+        color: var(--text3);
+        font-size: 11px;
+      }
+
+      /* Loading state */
+      .loading-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        color: var(--text2);
+        font-size: 14px;
+        height: 100%;
+        min-height: 200px;
+      }
+      .loading-spinner {
+        width: 36px;
+        height: 36px;
+        border: 3px solid var(--border2);
+        border-top-color: var(--jay);
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Not found */
+      .not-found {
+        padding: 60px 20px;
+        text-align: center;
+        color: var(--text2);
+      }
+      .not-found h2 {
+        font-size: 22px;
+        color: var(--text);
+        margin-bottom: 10px;
+      }
+      .not-found a {
+        color: var(--jay);
+        text-decoration: none;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .sidebar {
+          display: none;
+        }
+        .gi-actions {
+          display: none;
+        }
+        .nav-breadcrumb {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <a class="nav-logo" href="index.html">JeyGames</a>
+      <span style="color: var(--border2); margin: 0 2px">|</span>
+      <a class="nav-back" href="index.html">← Games</a>
+      <div class="nav-breadcrumb">
+        <span>›</span>
+        <span id="navTitle">Loading…</span>
+      </div>
+      <div class="nav-spacer"></div>
+      <button class="nav-fav-btn" id="navFavBtn" onclick="toggleFav()">
+        ❤️ Favourite
+      </button>
+      <button class="nav-fs-btn" onclick="goFullscreen()">⛶ Fullscreen</button>
+    </nav>
+
+    <!-- PAGE -->
+    <div class="page-wrap">
+      <!-- LEFT: game + info -->
+      <div class="game-col">
+        <!-- iframe -->
+        <div class="frame-wrap" id="frameWrap">
+          <div class="loading-screen" id="loadingScreen">
+            <div class="loading-spinner"></div>
+            <span>Loading game…</span>
+          </div>
+          <iframe id="gameFrame" allowfullscreen style="display: none"></iframe>
+          <div class="frame-overlay-btns">
+            <button class="overlay-btn" onclick="goFullscreen()">
+              ⛶ Fullscreen
+            </button>
+          </div>
+        </div>
+
+        <!-- Info bar -->
+        <div class="game-info-bar">
+          <img
+            id="giThumb"
+            class="gi-thumb"
+            src=""
+            alt=""
+            onerror="this.style.display = 'none'"
+          />
+          <div class="gi-meta">
+            <div class="gi-title" id="giTitle">Loading…</div>
+            <div class="gi-tags" id="giTags"></div>
+          </div>
+          <div class="gi-actions">
+            <button class="gi-btn primary" onclick="goFullscreen()">
+              ⛶ Fullscreen
+            </button>
+            <button class="gi-btn" id="giFavBtn" onclick="toggleFav()">
+              ❤️ Favourite
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="game-tabs">
+          <div class="game-tab active" onclick="switchTab('desc', this)">
+            About
+          </div>
+          <div class="game-tab" onclick="switchTab('htp', this)">
+            How to Play
+          </div>
+        </div>
+
+        <!-- Tab: Description -->
+        <div class="tab-content active" id="tab-desc">
+          <div class="game-description" id="giDesc">
+            <p>Loading…</p>
+          </div>
+        </div>
+
+        <!-- Tab: How to play -->
+        <div class="tab-content" id="tab-htp">
+          <div class="how-to-play" id="giHtp">
+            <div class="htp-item">
+              <span class="htp-key">Mouse</span><span>Move / Aim</span>
+            </div>
+            <div class="htp-item">
+              <span class="htp-key">Click</span><span>Interact / Shoot</span>
+            </div>
+            <div class="htp-item">
+              <span class="htp-key">WASD</span><span>Move character</span>
+            </div>
+            <div class="htp-item">
+              <span class="htp-key">Space</span><span>Jump / Action</span>
+            </div>
+            <div class="htp-item">
+              <span class="htp-key">Esc</span><span>Pause / Menu</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <div class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-label">Play Next</div>
+          <div id="nextGames">
+            <div class="loading-screen" style="min-height: 100px">
+              <div class="loading-spinner"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="games.js"></script>
+    <script>
+      // ─── Extra games (same as index.html) ──────────────────────────────
+      const extraGames = [
+        {
+          id: "skibidi-runner",
+          title: "Skibidi Runner",
+          src: "https://html5.gamemonetize.co/mh08lk78gtrvf2nfp2kbvqj9n1xl8voi/",
+          img: "https://img.gamemonetize.com/mh08lk78gtrvf2nfp2kbvqj9n1xl8voi/512x384.jpg",
+          tags: ["brainrot", "action", "popular", "new"],
+        },
+        {
+          id: "rizz-clicker",
+          title: "Rizz Clicker",
+          src: "https://html5.gamemonetize.co/m4a1m90ajt2q62i7lzavxhkgkjzltsci/",
+          img: "https://img.gamemonetize.com/m4a1m90ajt2q62i7lzavxhkgkjzltsci/512x384.jpg",
+          tags: ["brainrot", "puzzle", "new"],
+        },
+        {
+          id: "ohio-escape",
+          title: "Only in Ohio Escape",
+          src: "https://html5.gamemonetize.co/ue6pv9frylen459ec8g3z8zwk21hs265/",
+          img: "https://img.gamemonetize.com/ue6pv9frylen459ec8g3z8zwk21hs265/512x384.jpg",
+          tags: ["brainrot", "survival", "popular"],
+        },
+        {
+          id: "sigma-run",
+          title: "Sigma Run",
+          src: "https://html5.gamemonetize.co/00rc1qapvfanavoywyen9ns9bql6nvm4/",
+          img: "https://img.gamemonetize.com/00rc1qapvfanavoywyen9ns9bql6nvm4/512x384.jpg",
+          tags: ["brainrot", "action", "new"],
+        },
+        {
+          id: "blox-survival",
+          title: "Blox Survival",
+          src: "https://html5.gamemonetize.co/bevbu07wktcxyyg5hwz42yh36bg5maio/",
+          img: "https://img.gamemonetize.com/bevbu07wktcxyyg5hwz42yh36bg5maio/512x384.jpg",
+          tags: ["roblox", "survival", "popular", "3d"],
+        },
+        {
+          id: "mineblox",
+          title: "MineBlox Builder",
+          src: "https://html5.gamemonetize.co/n6rj5pu853j5z31exseip818vqhvk12r/",
+          img: "https://img.gamemonetize.com/n6rj5pu853j5z31exseip818vqhvk12r/512x384.jpg",
+          tags: ["roblox", "3d", "popular", "best"],
+        },
+        {
+          id: "obby-falls",
+          title: "Obby Falls",
+          src: "https://html5.gamemonetize.co/00rc1qapvfanavoywyen9ns9bql6nvm4/",
+          img: "https://img.gamemonetize.com/00rc1qapvfanavoywyen9ns9bql6nvm4/512x384.jpg",
+          tags: ["roblox", "adventure", "popular"],
+        },
+        {
+          id: "tycoon-island",
+          title: "Tycoon Island",
+          src: "https://html5.gamemonetize.co/jb0dcjocnv110l3a3tmmdxbnto6gwv8g/",
+          img: "https://img.gamemonetize.com/jb0dcjocnv110l3a3tmmdxbnto6gwv8g/512x384.jpg",
+          tags: ["roblox", "simulators", "new"],
+        },
+      ];
+
+      const allGames = [...(window.games || []), ...extraGames];
+
+      // ─── Favourites ────────────────────────────────────────────────────
+      let favourites = JSON.parse(localStorage.getItem("jg_favs") || "[]");
+      let currentId = null;
+
+      function saveFavs() {
+        localStorage.setItem("jg_favs", JSON.stringify(favourites));
+      }
+
+      function toggleFav() {
+        if (!currentId) return;
+        const i = favourites.indexOf(currentId);
+        if (i === -1) favourites.push(currentId);
+        else favourites.splice(i, 1);
+        saveFavs();
+        updateFavBtns();
+      }
+
+      function updateFavBtns() {
+        const isFav = favourites.includes(currentId);
+        const label = isFav ? "❤️ Saved!" : "❤️ Favourite";
+        ["navFavBtn", "giFavBtn"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.textContent = label;
+          el.classList.toggle("active", isFav);
+          el.classList.toggle("fav-active", isFav);
+        });
+      }
+
+      // ─── Fullscreen ────────────────────────────────────────────────────
+      function goFullscreen() {
+        const frame = document.getElementById("gameFrame");
+        if (frame.requestFullscreen) frame.requestFullscreen();
+        else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+      }
+
+      // ─── Tabs ──────────────────────────────────────────────────────────
+      function switchTab(id, el) {
+        document
+          .querySelectorAll(".game-tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((t) => t.classList.remove("active"));
+        el.classList.add("active");
+        document.getElementById("tab-" + id).classList.add("active");
+      }
+
+      // ─── Load game from URL params ─────────────────────────────────────
+      function init() {
+        const params = new URLSearchParams(location.search);
+        const id = params.get("id");
+
+        if (!id) {
+          showNotFound();
+          return;
+        }
+
+        const game = allGames.find((g) => g.id === id);
+        if (!game) {
+          showNotFound();
+          return;
+        }
+
+        currentId = game.id;
+        document.title = game.title + " — JeyGames";
+
+        // Nav
+        document.getElementById("navTitle").textContent = game.title;
+
+        // Thumb
+        const thumb = document.getElementById("giThumb");
+        thumb.src = game.img || "";
+        thumb.alt = game.title;
+
+        // Title
+        document.getElementById("giTitle").textContent = game.title;
+
+        // Tags
+        const tagsEl = document.getElementById("giTags");
+        (game.tags || []).slice(0, 7).forEach((t) => {
+          const a = document.createElement("a");
+          a.className = "gi-tag";
+          a.textContent = t;
+          a.href = "index.html?tag=" + encodeURIComponent(t);
+          tagsEl.appendChild(a);
+        });
+
+        // Description
+        const tagList = (game.tags || []).join(", ");
+        document.getElementById("giDesc").innerHTML = `
+          <p><strong>${game.title}</strong> is a free browser game you can play right here on JeyGames — no download, no login needed.</p>
+          <p>This game falls under the categories: <strong>${tagList || "fun, casual"}</strong>. Whether you're at school, work, or just chilling at home, JeyGames has you covered.</p>
+        `;
+
+        // Load iframe
+        const frame = document.getElementById("gameFrame");
+        frame.onload = () => {
+          document.getElementById("loadingScreen").style.display = "none";
+          frame.style.display = "block";
+        };
+        frame.src = game.src;
+
+        // Fav state
+        updateFavBtns();
+
+        // "Play Next" sidebar
+        const others = allGames.filter((g) => g.id !== id);
+        const shuffled = others.sort(() => Math.random() - 0.5).slice(0, 12);
+        const nextEl = document.getElementById("nextGames");
+        nextEl.innerHTML = "";
+        shuffled.forEach((g) => {
+          const a = document.createElement("a");
+          a.className = "next-card";
+          a.href = "game.html?id=" + encodeURIComponent(g.id);
+          a.innerHTML = `
+            <img class="next-thumb" src="${g.img || ""}" alt="${g.title}"
+              onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 56 42%22><rect width=%2256%22 height=%2242%22 fill=%22%23161a25%22/><text x=%2228%22 y=%2227%22 text-anchor=%22middle%22 font-size=%2218%22>🎮</text></svg>'">
+            <div class="next-info">
+              <div class="next-title">${g.title}</div>
+              <div class="next-sub">${(g.tags || []).slice(0, 2).join(" · ") || "Game"}</div>
+            </div>`;
+          nextEl.appendChild(a);
+        });
+      }
+
+      function showNotFound() {
+        document.querySelector(".page-wrap").innerHTML = `
+          <div class="not-found">
+            <h2>Game not found</h2>
+            <p>This game doesn't exist or the link is broken.</p>
+            <br>
+            <a href="index.html">← Back to all games</a>
+          </div>`;
+      }
+
+      init();
+    </script>
+  </body>
+</html>
