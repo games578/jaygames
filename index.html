@@ -3835,25 +3835,45 @@
       }
       window.acceptRequest = async function (fromUid, fromUsername) {
         if (!currentUser) return;
-        const mySnap = await get(ref(db, "users/" + currentUser.uid));
-        const myProfile = mySnap.val() || {};
-        await set(ref(db, "users/" + currentUser.uid + "/friends/" + fromUid), {
-          username: fromUsername,
-          addedAt: Date.now(),
-        });
-        await set(ref(db, "users/" + fromUid + "/friends/" + currentUser.uid), {
-          username: myProfile.username || "Unknown",
-          addedAt: Date.now(),
-        });
-        await remove(
-          ref(db, "friendRequests/" + currentUser.uid + "/" + fromUid),
-        );
+        try {
+          const mySnap = await get(ref(db, "users/" + currentUser.uid));
+          const myProfile = mySnap.val() || {};
+          const myUsername = myProfile.username || "Unknown";
+          // Write to current user's friends list
+          await set(ref(db, "users/" + currentUser.uid + "/friends/" + fromUid), {
+            username: fromUsername,
+            addedAt: Date.now(),
+          });
+          // Try to write to the requester's friends list (may fail if rules block it)
+          try {
+            await set(ref(db, "users/" + fromUid + "/friends/" + currentUser.uid), {
+              username: myUsername,
+              addedAt: Date.now(),
+            });
+          } catch (e) {
+            // Rules blocked writing to other user — send them a friend request back
+            // so they can accept and get us added on their side
+            await set(ref(db, "friendRequests/" + fromUid + "/" + currentUser.uid), {
+              username: myUsername,
+              sentAt: Date.now(),
+            });
+          }
+          // Remove the incoming request
+          await remove(ref(db, "friendRequests/" + currentUser.uid + "/" + fromUid));
+          showToast("✓ " + fromUsername + " added as friend!");
+        } catch (e) {
+          console.error("acceptRequest error:", e);
+          showToast("Error accepting request: " + (e.message || e), true);
+        }
       };
       window.declineRequest = async function (fromUid) {
         if (!currentUser) return;
-        await remove(
-          ref(db, "friendRequests/" + currentUser.uid + "/" + fromUid),
-        );
+        try {
+          await remove(ref(db, "friendRequests/" + currentUser.uid + "/" + fromUid));
+          showToast("Request declined.");
+        } catch (e) {
+          showToast("Error: " + (e.message || e), true);
+        }
       };
 
       let friendsRef = null;
