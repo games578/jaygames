@@ -211,7 +211,7 @@
               <div class="profile-avatar-big" id="profileAvatarBig">J</div>
               <div class="profile-username" id="profileUsername">Username</div>
               <div class="profile-bio" id="profileBio" style="display:none"></div>
-              <div class="profile-location" id="profileLocation">📍 United Kingdom</div>
+              <div class="profile-location" id="profileLocation" style="display:flex;align-items:center;gap:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> United Kingdom</div>
             </div>
             <div class="profile-actions">
               <button class="profile-edit-btn" onclick="openEditModal()">✏️ Edit Profile</button>
@@ -250,8 +250,8 @@
         <!-- RIGHT -->
         <div class="profile-right">
           <div class="tabs">
-            <button class="tab-btn active" id="tabLB" onclick="switchTab('leaderboards',this)">🏆 Leaderboards</button>
-            <button class="tab-btn" id="tabLiked" onclick="switchTab('liked',this)">❤️ Liked games</button>
+            <button class="tab-btn active" id="tabLB" onclick="switchTab('leaderboards',this)">Leaderboards</button>
+            <button class="tab-btn" id="tabLiked" onclick="switchTab('liked',this)">Liked games</button>
           </div>
 
           <div id="tab-leaderboards">
@@ -600,7 +600,7 @@
     <script type="module">
       import { initializeApp }          from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
       import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-      import { getDatabase, ref, get, update }        from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+      import { getDatabase, ref, get, update, onValue, off } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
       const app = initializeApp({
         apiKey:            "AIzaSyBC-Enomoc8YXxe9VV5oz8cAYbaTXFdcCc",
@@ -614,51 +614,172 @@
       const auth = getAuth(app);
       const db   = getDatabase(app);
 
+      // Check if viewing someone else's profile
+      const params     = new URLSearchParams(window.location.search);
+      const viewingUid = params.get('uid');
+
+      function loadProfile(targetUid, isOwnProfile) {
+        // Hide edit controls if not own profile
+        if (!isOwnProfile) {
+          document.querySelectorAll('.profile-edit-btn, .edit-banner-btn, .profile-share-btn').forEach(el => el.style.display = 'none');
+          const shareBtn = document.createElement('button');
+          shareBtn.className = 'profile-share-btn';
+          shareBtn.title = 'Copy profile link';
+          shareBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>';
+          shareBtn.onclick = () => {
+            navigator.clipboard.writeText(window.location.href).then(() => showToast('Link copied!')).catch(() => {});
+          };
+          const actions = document.querySelector('.profile-actions');
+          if (actions) actions.appendChild(shareBtn);
+        }
+
+        get(ref(db, 'users/' + targetUid)).then(snap => {
+          const profile = snap.val() || {};
+          const name    = profile.username || 'Unknown User';
+          const initial = name[0].toUpperCase();
+
+          document.getElementById('profileAvatarBig').textContent = initial;
+          document.getElementById('profileUsername').textContent  = name;
+          document.title = name + ' — JeyGames';
+
+          if (profile.bio) {
+            document.getElementById('profileBio').textContent   = profile.bio;
+            document.getElementById('profileBio').style.display = 'block';
+          }
+          if (profile.location) {
+            document.getElementById('profileLocation').innerHTML =
+              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ' + profile.location;
+          }
+
+          if (profile.bannerGradient) {
+            document.getElementById('profileBanner').style.background = profile.bannerGradient;
+          }
+
+          const days = profile.createdAt ? Math.floor((Date.now() - profile.createdAt) / 86400000) : 0;
+          document.getElementById('memberDays').textContent = days + (days === 1 ? ' day' : ' days');
+
+          // Friends count
+          const friendsData = profile.friends || {};
+          const friendIds   = Object.keys(friendsData);
+          document.querySelector('.friends-count').textContent = friendIds.length;
+
+          // Render friends list on profile
+          const friendsContainer = document.querySelector('.friends-empty').parentElement;
+          if (friendIds.length > 0) {
+            document.querySelector('.friends-empty').style.display = 'none';
+            // Fetch presence for online status
+            get(ref(db, 'presence')).then(presSnap => {
+              const presence = presSnap.val() || {};
+              const fHtml = friendIds.map(fid => {
+                const f = friendsData[fid];
+                const p = presence[fid];
+                const isOnline = p?.online && Date.now() - (p.lastSeen || 0) < 90000;
+                const dot = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${isOnline ? '#22c55e' : '#6b7280'};margin-right:5px;flex-shrink:0"></span>`;
+                return `<a href="profile.html?uid=${fid}" style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);margin-bottom:6px;text-decoration:none;color:inherit;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--jay)'" onmouseout="this.style.borderColor='var(--border)'">
+                  <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--jay),var(--purple));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0">${(f.username||'?')[0].toUpperCase()}</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${f.username||'Unknown'}</div>
+                    <div style="font-size:11px;color:var(--text3);display:flex;align-items:center">${dot}${isOnline ? 'Online' : 'Offline'}</div>
+                  </div>
+                </a>`;
+              }).join('');
+              friendsContainer.insertAdjacentHTML('beforeend', fHtml);
+            }).catch(() => {
+              // No presence data
+              const fHtml = friendIds.map(fid => {
+                const f = friendsData[fid];
+                return `<a href="profile.html?uid=${fid}" style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);margin-bottom:6px;text-decoration:none;color:inherit;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--jay)'" onmouseout="this.style.borderColor='var(--border)'">
+                  <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--jay),var(--purple));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0">${(f.username||'?')[0].toUpperCase()}</div>
+                  <div style="font-size:13px;font-weight:700">${f.username||'Unknown'}</div>
+                </a>`;
+              }).join('');
+              friendsContainer.insertAdjacentHTML('beforeend', fHtml);
+            });
+          }
+
+          // Liked/favourites games (use favourites node since that's what index.html writes)
+          const favKeys = Object.keys(profile.favourites || profile.likes || {});
+          document.getElementById('likedCount').textContent = favKeys.length;
+          document.getElementById('tabLiked').textContent = favKeys.length > 0 ? `Liked games (${favKeys.length})` : 'Liked games';
+
+          if (favKeys.length > 0) {
+            document.getElementById('likedEmpty').style.display = 'none';
+            const grid = document.getElementById('likedGrid');
+            grid.style.display = 'grid';
+            grid.innerHTML = '';
+            favKeys.forEach(gameId => {
+              const hash  = gameId.split('').reduce((a,c) => a + c.charCodeAt(0), 0);
+              const emoji = window.GAME_EMOJIS ? window.GAME_EMOJIS[hash % window.GAME_EMOJIS.length] : '🎮';
+              const card  = document.createElement('div');
+              card.className = 'liked-game-card';
+              // Only show remove button on own profile
+              const removeBtn = isOwnProfile
+                ? `<button class="liked-game-remove" data-id="${gameId}">♡ Unlike</button>`
+                : '';
+              card.innerHTML = `
+                <div class="liked-game-icon">${emoji}</div>
+                <div class="liked-game-name">${gameId}</div>
+                ${removeBtn}
+              `;
+              if (isOwnProfile) {
+                card.querySelector('.liked-game-remove')?.addEventListener('click', e => {
+                  e.stopPropagation();
+                  unlikeGame(gameId);
+                });
+              }
+              grid.appendChild(card);
+            });
+          }
+        }).catch(err => {
+          console.error('Profile load error:', err);
+          document.getElementById('profileUsername').textContent = 'User not found';
+        });
+      }
+
       onAuthStateChanged(auth, async (user) => {
-        if (!user) { window.location.href = 'index.html'; return; }
+        const isOwnProfile = !viewingUid || (user && viewingUid === user.uid);
 
-        window._firebaseDB  = db;
-        window._firebaseUID = user.uid;
+        if (user) {
+          window._firebaseDB  = db;
+          window._firebaseUID = user.uid;
 
-        const snap    = await get(ref(db, 'users/' + user.uid));
-        const profile = snap.val() || {};
-        const name    = profile.username || user.email;
-        const initial = name[0].toUpperCase();
+          const snap    = await get(ref(db, 'users/' + user.uid));
+          const profile = snap.val() || {};
+          const name    = profile.username || user.email;
+          const initial = name[0].toUpperCase();
 
-        document.getElementById('navAvatarCircle').textContent   = initial;
-        document.getElementById('navAvatarName').textContent     = name;
-        document.getElementById('dropdownAvatar').textContent    = initial;
-        document.getElementById('dropdownUsername').textContent  = name;
-        document.getElementById('dropdownEmail').textContent     = user.email;
-        document.getElementById('profileAvatarBig').textContent  = initial;
-        document.getElementById('profileUsername').textContent   = name;
-        document.getElementById('userMenuWrap').style.display    = 'block';
-        document.getElementById('loginBtn').style.display        = 'none';
+          // Always update nav with logged-in user info
+          document.getElementById('navAvatarCircle').textContent  = initial;
+          document.getElementById('navAvatarName').textContent    = name;
+          document.getElementById('dropdownAvatar').textContent   = initial;
+          document.getElementById('dropdownUsername').textContent = name;
+          document.getElementById('dropdownEmail').textContent    = user.email;
+          document.getElementById('userMenuWrap').style.display   = 'block';
+          document.getElementById('loginBtn').style.display       = 'none';
 
-        if (profile.bio) {
-          document.getElementById('profileBio').textContent      = profile.bio;
-          document.getElementById('profileBio').style.display    = 'block';
+          if (viewingUid && viewingUid !== user.uid) {
+            // Viewing someone else
+            loadProfile(viewingUid, false);
+          } else {
+            // Own profile
+            loadProfile(user.uid, true);
+            if (profile.bannerGradient) {
+              window.currentBannerGradient = profile.bannerGradient;
+              localStorage.setItem('jg_banner', profile.bannerGradient);
+            }
+          }
+        } else {
+          // Not logged in
+          document.getElementById('userMenuWrap').style.display = 'none';
+          if (viewingUid) {
+            // Can still view public profile without being logged in
+            loadProfile(viewingUid, false);
+            document.querySelectorAll('.profile-edit-btn, .edit-banner-btn').forEach(el => el.style.display = 'none');
+          } else {
+            window.location.href = 'index.html';
+          }
         }
-        if (profile.location) {
-          document.getElementById('profileLocation').textContent = '📍 ' + profile.location;
-        }
 
-        // Banner from Firebase (takes priority over localStorage)
-        if (profile.bannerGradient) {
-          window.currentBannerGradient = profile.bannerGradient;
-          localStorage.setItem('jg_banner', profile.bannerGradient);
-          document.getElementById('profileBanner').style.background = profile.bannerGradient;
-        }
-
-        // Member days
-        const days = profile.createdAt ? Math.floor((Date.now() - profile.createdAt) / 86400000) : 0;
-        document.getElementById('memberDays').textContent = days + (days === 1 ? ' day' : ' days');
-
-        // Liked games
-        const likesSnap = await get(ref(db, 'users/' + user.uid + '/likes'));
-        renderLikedGames(likesSnap.val() || {});
-
-        // Logout
         window.doLogout = async () => {
           await signOut(auth);
           localStorage.removeItem('jg_user');
