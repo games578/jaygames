@@ -3881,23 +3881,32 @@
       let friendsRef = null;
       function renderFriendItem(fid, f, presence) {
         const p = presence[fid];
-        const isOnline = p?.online && Date.now() - p.lastSeen < 90000;
+        const isOnline = p?.online && Date.now() - (p.lastSeen || 0) < 90000;
         const gameId = p?.currentGame;
         const currentG = gameId
           ? (window.dedupedGames || []).find((g) => g.id === gameId)
           : null;
         const onlineDot = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;margin-right:4px;flex-shrink:0"></span>`;
         const offlineDot = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#6b7280;margin-right:4px;flex-shrink:0"></span>`;
-        return `<div class="friend-item">
-          <div class="friend-avatar" style="background:linear-gradient(135deg,var(--jay),var(--purple));color:#fff">${esc((f.username || "?")[0].toUpperCase())}</div>
-          <div class="friend-info">
-            <div class="friend-name">${esc(f.username || "Unknown")}</div>
-            <div class="friend-status ${isOnline ? "friend-online" : ""}" style="display:flex;align-items:center">
-              ${isOnline ? onlineDot : offlineDot}
-              ${isOnline ? (currentG ? "Playing " + esc(currentG.title) : "Online") : "Offline"}
+        return `<div class="friend-item" style="flex-direction:column;align-items:stretch;gap:8px;padding:10px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="friend-avatar" style="background:linear-gradient(135deg,var(--jay),var(--purple));color:#fff">${esc((f.username || "?")[0].toUpperCase())}</div>
+            <div class="friend-info">
+              <div class="friend-name">${esc(f.username || "Unknown")}</div>
+              <div class="friend-status ${isOnline ? "friend-online" : ""}" style="display:flex;align-items:center">
+                ${isOnline ? onlineDot : offlineDot}
+                ${isOnline ? (currentG ? "Playing " + esc(currentG.title) : "Online") : "Offline"}
+              </div>
             </div>
+            ${isOnline && currentG ? `<a href="game.html?id=${currentG.id}" class="invite-btn" style="text-decoration:none;margin-left:auto">Join</a>` : ""}
           </div>
-          ${isOnline && currentG ? `<a href="game.html?id=${currentG.id}" class="invite-btn" style="text-decoration:none">Join</a>` : ""}
+          <div style="display:flex;gap:6px">
+            <a href="profile.html?uid=${fid}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:5px 8px;background:var(--bg4);border:1px solid var(--border2);border-radius:7px;color:var(--text2);font-size:11px;font-weight:700;text-decoration:none;transition:0.15s;font-family:Outfit,sans-serif" onmouseover="this.style.borderColor='var(--jay)';this.style.color='var(--jay)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              View Profile
+            </a>
+            ${isOnline && currentG ? "" : `<a href="profile.html?uid=${fid}" style="display:none"></a>`}
+          </div>
         </div>`;
       }
 
