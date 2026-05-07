@@ -3861,6 +3861,8 @@
           // Remove the incoming request
           await remove(ref(db, "friendRequests/" + currentUser.uid + "/" + fromUid));
           showToast("✓ " + fromUsername + " added as friend!");
+          // Force refresh the friends list
+          listenForFriends(currentUser.uid);
         } catch (e) {
           console.error("acceptRequest error:", e);
           showToast("Error accepting request: " + (e.message || e), true);
@@ -3877,45 +3879,54 @@
       };
 
       let friendsRef = null;
+      function renderFriendItem(fid, f, presence) {
+        const p = presence[fid];
+        const isOnline = p?.online && Date.now() - p.lastSeen < 90000;
+        const gameId = p?.currentGame;
+        const currentG = gameId
+          ? (window.dedupedGames || []).find((g) => g.id === gameId)
+          : null;
+        const onlineDot = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;margin-right:4px;flex-shrink:0"></span>`;
+        const offlineDot = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#6b7280;margin-right:4px;flex-shrink:0"></span>`;
+        return `<div class="friend-item">
+          <div class="friend-avatar" style="background:linear-gradient(135deg,var(--jay),var(--purple));color:#fff">${esc((f.username || "?")[0].toUpperCase())}</div>
+          <div class="friend-info">
+            <div class="friend-name">${esc(f.username || "Unknown")}</div>
+            <div class="friend-status ${isOnline ? "friend-online" : ""}" style="display:flex;align-items:center">
+              ${isOnline ? onlineDot : offlineDot}
+              ${isOnline ? (currentG ? "Playing " + esc(currentG.title) : "Online") : "Offline"}
+            </div>
+          </div>
+          ${isOnline && currentG ? `<a href="game.html?id=${currentG.id}" class="invite-btn" style="text-decoration:none">Join</a>` : ""}
+        </div>`;
+      }
+
       function listenForFriends(uid) {
         if (friendsRef) off(friendsRef);
         friendsRef = ref(db, "users/" + uid + "/friends");
+        const listEl = document.getElementById("friendsList");
+        listEl.innerHTML = `<div style="color:var(--text3);font-size:12px;padding:12px 0;text-align:center">Loading...</div>`;
         onValue(friendsRef, async (snap) => {
           const friends = snap.val() || {};
           const friendIds = Object.keys(friends);
-          const listEl = document.getElementById("friendsList");
           if (!friendIds.length) {
             listEl.innerHTML = `<div style="color:var(--text3);font-size:12px;padding:12px 0;text-align:center">No friends yet — add some above!</div>`;
             return;
           }
-          const presSnap = await get(ref(db, "presence"));
-          const presence = presSnap.val() || {};
+          let presence = {};
+          try {
+            const presSnap = await get(ref(db, "presence"));
+            presence = presSnap.val() || {};
+          } catch (e) { /* presence read failed, show all as offline */ }
           friendIds.sort((a, b) => {
-            const ao =
-              presence[a]?.online && Date.now() - presence[a]?.lastSeen < 90000;
-            const bo =
-              presence[b]?.online && Date.now() - presence[b]?.lastSeen < 90000;
+            const ao = presence[a]?.online && Date.now() - (presence[a]?.lastSeen || 0) < 90000;
+            const bo = presence[b]?.online && Date.now() - (presence[b]?.lastSeen || 0) < 90000;
             return (bo ? 1 : 0) - (ao ? 1 : 0);
           });
-          listEl.innerHTML = friendIds
-            .map((fid) => {
-              const f = friends[fid];
-              const p = presence[fid];
-              const isOnline = p?.online && Date.now() - p.lastSeen < 90000;
-              const gameId = p?.currentGame;
-              const currentG = gameId
-                ? (window.dedupedGames || []).find((g) => g.id === gameId)
-                : null;
-              return `<div class="friend-item">
-              <div class="friend-avatar" style="background:linear-gradient(135deg,var(--jay),var(--purple));color:#fff">${esc(f.username?.[0]?.toUpperCase() || "?")}</div>
-              <div class="friend-info">
-                <div class="friend-name">${esc(f.username)}</div>
-                ${isOnline ? `<div class="friend-status friend-online">${currentG ? "🟢 Playing " + esc(currentG.title) : "🟢 Online"}</div>` : `<div class="friend-status">⚫ Offline</div>`}
-              </div>
-              ${isOnline && currentG ? `<a href="game.html?id=${currentG.id}" class="invite-btn" style="text-decoration:none">Join</a>` : ""}
-            </div>`;
-            })
-            .join("");
+          listEl.innerHTML = friendIds.map((fid) => renderFriendItem(fid, friends[fid], presence)).join("");
+        }, (error) => {
+          console.error("Friends listen error:", error);
+          listEl.innerHTML = `<div style="color:#ef4444;font-size:12px;padding:12px 0;text-align:center">Could not load friends.<br><small>${error.message}</small></div>`;
         });
       }
     </script>
